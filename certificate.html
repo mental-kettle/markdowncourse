@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; }
+  * { box-sizing:border-box; }
+  @media print {
+    .no-print { display:none !important; }
+    body, .page { background:#fff !important; }
+    .page { padding:0 !important; min-height:auto !important; }
+    @page { size:landscape; margin:0; }
+  }
+</style>
+</helmet>
+<div class="page" style="min-height:100vh; background:#eef0ef; display:flex; flex-direction:column; align-items:center; gap:22px; padding:40px 20px; font-family:'Spectral',Georgia,serif; color:#1f2a28;">
+
+  <!-- CONTROLS -->
+  <div class="no-print" style="display:flex; align-items:center; gap:12px; width:920px; max-width:100%; justify-content:space-between;">
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7f8a88; text-decoration:none;">← Back to lessons</a>
+    <button onClick="{{ print }}" style="border:none; cursor:pointer; font-family:'Spectral',serif; font-weight:600; font-size:14px; color:#fff; background:#fc4a1a; padding:11px 26px; border-radius:24px; box-shadow:0 6px 14px rgba(252,74,26,0.28);">Print / Save as PDF 🖨️</button>
+  </div>
+
+  <!-- CERTIFICATE -->
+  <div style="width:920px; max-width:100%; aspect-ratio:1.414/1; background:#fffdf7; border-radius:6px; box-shadow:0 20px 50px rgba(31,42,40,0.18); position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6%;">
+    <!-- ornamental border -->
+    <div style="position:absolute; inset:18px; border:2px solid #4abdac; border-radius:4px;"></div>
+    <div style="position:absolute; inset:26px; border:1px solid #e3cf9b; border-radius:3px;"></div>
+    <!-- corner accents -->
+    <div style="position:absolute; top:30px; left:30px; width:34px; height:34px; border-top:3px solid #fc4a1a; border-left:3px solid #fc4a1a;"></div>
+    <div style="position:absolute; top:30px; right:30px; width:34px; height:34px; border-top:3px solid #fc4a1a; border-right:3px solid #fc4a1a;"></div>
+    <div style="position:absolute; bottom:30px; left:30px; width:34px; height:34px; border-bottom:3px solid #fc4a1a; border-left:3px solid #fc4a1a;"></div>
+    <div style="position:absolute; bottom:30px; right:30px; width:34px; height:34px; border-bottom:3px solid #fc4a1a; border-right:3px solid #fc4a1a;"></div>
+
+    <div style="position:relative; text-align:center; max-width:78%;">
+      <div style="width:64px; height:64px; margin:0 auto; border-radius:16px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:34px;">#</div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa3a1; margin-top:20px;">Certificate of Completion</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:34px; margin-top:6px; color:#1f2a28;">Markdown 101</div>
+      <div style="font-size:15px; color:#6b746f; margin-top:22px;">This certifies that</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:44px; line-height:1.1; margin-top:8px; color:#fc4a1a;">{{ name }}</div>
+      <div style="width:280px; max-width:60%; height:1px; background:#d8dcd9; margin:14px auto 0;"></div>
+      <div style="font-size:15.5px; line-height:1.55; color:#4a5754; margin-top:18px;">has heroically tamed headings, bent text to their will, wrangled lists, forged links, fenced code, and passed <span style="font-style:italic;">The Grand Markdown</span> exam with flying colors.</div>
+
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-top:36px; gap:30px;">
+        <div style="text-align:center;">
+          <div style="font-family:'DM Serif Display',serif; font-size:22px; color:#1f2a28;">{{ date }}</div>
+          <div style="width:150px; height:1px; background:#c8cecb; margin:6px auto 0;"></div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-top:5px;">Date</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <div style="display:inline-flex; align-items:center; gap:7px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px; color:#5a4300; background:#f7b733; padding:7px 16px; border-radius:22px;"><span>★</span>{{ xp }} XP</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-top:7px;">Markdown Master</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'DM Serif Display',serif; font-size:22px; font-style:italic; color:#1f2a28;">Markdown 101</div>
+          <div style="width:150px; height:1px; background:#c8cecb; margin:6px auto 0;"></div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-top:5px;">Issued by</div>
+        </div>
+      </div>
+
+      <div style="margin-top:26px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:#9aa3a1;">Earn yours at <span style="color:#4abdac; font-weight:600;">markdowncourse.com</span> · Interactive Markdown Learning Tool</div>
+    </div>
+  </div>
+
+  <div class="no-print" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#aab2b0; text-align:center;">{{ tip }}</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  state = { name:'Markdown Graduate', xp:0, date:'' };
+  componentDidMount() {
+    let data = null;
+    try { data = JSON.parse(localStorage.getItem('md101_cert')||'null'); } catch(e) {}
+    const today = new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    if (data) this.setState({ name:data.name||'Markdown Graduate', xp:data.xp||0, date:data.date||today });
+    else this.setState({ date:today });
+  }
+  print = () => { window.print(); };
+  renderVals() {
+    return {
+      name:this.state.name, xp:this.state.xp, date:this.state.date || ' ',
+      print:this.print,
+      tip:'Tip: in the print dialog choose "Save as PDF", and turn on background graphics for full color.',
+    };
+  }
+}
+</script>
+</body>
+</html>

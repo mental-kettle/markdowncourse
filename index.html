@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; }
+  * { box-sizing: border-box; }
+  textarea::placeholder { color:#b7c2c0; }
+  @keyframes fadein { from { opacity:0; } to { opacity:1; } }
+  @keyframes pop { 0% { opacity:0; transform:scale(.85) translateY(10px); } 100% { opacity:1; transform:scale(1) translateY(0); } }
+  @keyframes wiggle { 0%,100% { transform:rotate(8deg); } 50% { transform:rotate(-4deg) scale(1.06); } }
+  @keyframes shake { 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-5px);} 40%,80%{transform:translateX(5px);} }
+  @keyframes slidein { from { opacity:0; transform:translateY(8px);} to {opacity:1; transform:translateY(0);} }
+</style>
+</helmet>
+<div style="min-height:100vh; display:flex; flex-direction:column; background:#eef0ef; font-family:'Spectral',Georgia,serif; color:#1f2a28;">
+
+  <!-- HEADER -->
+  <header style="display:flex; align-items:center; justify-content:space-between; padding:13px 28px; background:#ffffff; border-bottom:1px solid #e4e6e4; position:sticky; top:0; z-index:30;">
+    <div style="display:flex; align-items:center; gap:11px;">
+      <div style="width:28px; height:28px; border-radius:8px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px;">#</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:21px; white-space:nowrap;">Markdown 101</div>
+      <a href="guide.html" style="margin-left:14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7f8a88; text-decoration:none; padding:5px 10px; border-radius:8px;" style-hover="background:#eef0ef; color:#4abdac;">？ How it works</a>
+      <a href="reading-room.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7f8a88; text-decoration:none; padding:5px 10px; border-radius:8px;" style-hover="background:#eef0ef; color:#4abdac;">✦ Reading Room</a>
+    </div>
+    <div style="display:flex; align-items:center; gap:20px;">
+      <div onClick="{{ toggleSound }}" title="Toggle sound" style="cursor:pointer; width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center;" style-hover="background:#eef0ef;"><img src="assets/sound.png" alt="sound" style="width:19px; height:19px; object-fit:contain; opacity:{{ soundOpacity }}; filter:{{ soundFilter }};"></div>
+      <div style="display:flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:#e6a200; font-weight:700;"><span style="width:9px; height:9px; border-radius:50%; background:#f7b733;"></span>{{ streak }} streak</div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12.5px; font-weight:700; color:#5a4300;"><span style="color:#e6a200;">{{ xp }}</span> XP</div>
+      <div style="display:flex; align-items:center; gap:9px;" title="Course progress">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:#fff; background:#4abdac; padding:3px 10px; border-radius:20px;">Lv {{ level }}</span>
+        <div style="width:96px; height:7px; background:#e4e6e4; border-radius:5px; overflow:hidden;"><div style="height:100%; background:#4abdac; border-radius:5px; width:{{ progressPct }}%;"></div></div>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:#4abdac;">{{ progressPct }}%</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <div style="display:flex; flex:1; align-items:flex-start;">
+
+    <!-- RAIL -->
+    <aside style="width:280px; flex-shrink:0; padding:20px 14px; border-right:1px solid #e4e6e4; background:#f7f8f7; align-self:stretch;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#9aa3a1; margin:4px 10px 14px;">Your path</div>
+      <sc-for list="{{ rail }}" as="it" hint-placeholder-count="14">
+        <div onClick="{{ it.go }}" style="display:flex; align-items:center; gap:12px; padding:9px 10px; border-radius:12px; cursor:pointer; margin-bottom:2px; background:{{ it.rowBg }};" style-hover="background:#eef0ef;">
+          <sc-if value="{{ it.isDone }}" hint-placeholder-val="{{ false }}">
+            <div style="width:30px; height:30px; flex-shrink:0; border-radius:9px; background:#4abdac; color:#fff; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700;">✓</div>
+          </sc-if>
+          <sc-if value="{{ it.isCurrent }}" hint-placeholder-val="{{ false }}">
+            <div style="width:30px; height:30px; flex-shrink:0; border-radius:9px; background:#fff; border:2px solid #fc4a1a; color:#fc4a1a; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;">{{ it.glyph }}</div>
+          </sc-if>
+          <sc-if value="{{ it.isLocked }}" hint-placeholder-val="{{ true }}">
+            <div style="width:30px; height:30px; flex-shrink:0; border-radius:9px; background:#e9eae9; display:flex; align-items:center; justify-content:center;"><img src="assets/lock.png" alt="locked" style="width:17px; height:auto; opacity:0.75;"></div>
+          </sc-if>
+          <div style="flex:1;">
+            <div style="font-size:14.5px; font-weight:500; color:{{ it.labelColor }};">{{ it.label }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.06em; color:#aab2b0; text-transform:uppercase;">{{ it.sub }}</div>
+          </div>
+        </div>
+      </sc-for>
+      <div style="margin:14px 10px 0; padding-top:14px; border-top:1px dashed #dfe1df; font-family:'IBM Plex Mono',monospace; font-size:10px; color:#aab2b0; line-height:1.6;">{{ railFootnote }}</div>
+    </aside>
+
+    <!-- MAIN -->
+    <main style="flex:1; padding:30px 28px 56px; display:flex; justify-content:center;">
+
+      <!-- ====== LESSON VIEW ====== -->
+      <sc-if value="{{ isLesson }}" hint-placeholder-val="{{ true }}">
+        <div style="width:660px; max-width:100%; background:#ffffff; border-radius:20px; box-shadow:0 14px 44px rgba(31,42,40,0.10), 0 2px 6px rgba(31,42,40,0.06); overflow:hidden; position:relative;">
+          <div style="height:6px; background:linear-gradient(90deg,#4abdac 0 40%,#f7b733 40% 70%,#fc4a1a 70% 100%);"></div>
+
+          <div style="padding:22px 26px 0;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#4abdac; font-weight:600;">{{ moduleLabel }}</div>
+            <div style="font-family:'DM Serif Display',serif; font-size:40px; line-height:1.02; margin-top:5px;">{{ title }}</div>
+            {{ blurbEl }}
+          </div>
+
+          <!-- TIP -->
+          <div style="margin:16px 26px 0; display:flex; gap:10px; align-items:flex-start; padding:11px 14px; background:#fffaf2; border:1px solid #ffe6c7; border-radius:12px;">
+            <img src="assets/bulb.png" alt="tip" style="width:18px; height:18px; object-fit:contain; margin-top:1px; flex-shrink:0;">
+            <div style="font-size:13.5px; line-height:1.5; color:#8a6a32;">{{ tipEl }}</div>
+          </div>
+
+          <!-- TASK -->
+          <div style="margin:16px 26px 0; padding:14px 16px; border:1.5px dashed #b7e3dc; border-radius:13px; background:#f1faf8;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#fc4a1a; margin-bottom:6px; font-weight:600;">✎ Your turn</div>
+            <div style="font-size:15px; line-height:1.5; color:#1f2a28; opacity:0.92;">{{ taskEl }}</div>
+            <div style="display:flex; align-items:center; gap:6px; margin-top:9px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#7f9c97;"><span style="font-size:11px;">Aa</span>Capitalization counts — type the words exactly as shown.</div>
+          </div>
+
+          <!-- EDITOR + PREVIEW -->
+          <div style="margin:14px 26px 0; display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:stretch;">
+            <div style="border:1px solid #e4e6e4; border-radius:12px; overflow:hidden; display:flex; flex-direction:column;">
+              <div style="display:flex; align-items:center; gap:6px; padding:8px 12px; background:#e7f4f1;"><span style="width:9px; height:9px; border-radius:50%; background:#b7c2c0;"></span><span style="width:9px; height:9px; border-radius:50%; background:#b7c2c0;"></span><span style="width:9px; height:9px; border-radius:50%; background:#b7c2c0;"></span><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#7f9c97; margin-left:4px;">editor.md</span></div>
+              <textarea value="{{ text }}" onChange="{{ onChange }}" spellcheck="false" placeholder="Type your markdown here…" style="flex:1; width:100%; min-height:150px; resize:vertical; border:none; outline:none; padding:12px 14px; font-family:'JetBrains Mono',monospace; font-size:13.5px; line-height:1.8; color:#1f2a28; background:#fff;"></textarea>
+            </div>
+            <div style="border:1px solid #e4e6e4; border-radius:12px; background:#fbfbfa; padding:11px 16px; display:flex; flex-direction:column; min-height:150px;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-bottom:8px;">preview</div>
+              {{ previewEl }}
+            </div>
+          </div>
+
+          <!-- PEEK -->
+          <sc-if value="{{ showPeekRow }}" hint-placeholder-val="{{ true }}">
+            <div style="margin:14px 26px 0;">
+              <div onClick="{{ togglePeek }}" style="display:inline-flex; align-items:center; gap:7px; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#4abdac; font-weight:600; user-select:none;"><img src="assets/magnifier.png" alt="" style="width:17px; height:17px; object-fit:contain;">{{ peekLabel }}</div>
+              <sc-if value="{{ showPeek }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:10px; border:1px solid #ffe0c2; background:#fff7ef; border-radius:12px; padding:12px 14px;">
+                  <div style="font-size:13px; color:#9a6a2a; margin-bottom:8px; font-style:italic;">Here's the same idea with <strong>different words</strong> — copy the pattern, not the answer:</div>
+                  {{ exampleEl }}
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- ACTIONS -->
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 26px 4px;">
+            <div style="flex:1; min-width:0;">
+              <sc-if value="{{ taskDone }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; align-items:center; gap:9px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:#5a4300; background:#f7b733; padding:5px 11px; border-radius:20px;">✓ +{{ lessonXp }} XP</span><span style="font-size:13.5px; color:#1f2a28; opacity:0.6; font-style:italic;">{{ doneNote }}</span></div>
+              </sc-if>
+              <sc-if value="{{ showStatus }}" hint-placeholder-val="{{ true }}">
+                <div style="font-size:14px; color:{{ statusColor }}; line-height:1.4;">{{ statusMsg }}</div>
+              </sc-if>
+            </div>
+            <sc-if value="{{ notTaskDone }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ check }}" style="border:none; cursor:pointer; font-family:'Spectral',serif; font-weight:600; font-size:14px; color:#fff; background:#fc4a1a; padding:11px 26px; border-radius:24px; box-shadow:0 6px 14px rgba(252,74,26,0.28); flex-shrink:0;">Check it →</button>
+            </sc-if>
+          </div>
+
+          <!-- AFTER TASK: BONUS + QUIZ -->
+          <sc-if value="{{ taskDone }}" hint-placeholder-val="{{ false }}">
+            <div style="margin:8px 26px 0; animation:slidein .3s ease;">
+
+              <!-- BONUS -->
+              <div style="margin-top:10px; border:1px solid #ffe0c2; border-radius:14px; overflow:hidden; background:#fffaf2;">
+                <div onClick="{{ toggleBonus }}" style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; cursor:pointer;">
+                  <div style="display:flex; align-items:center; gap:9px;"><img src="assets/star.png" alt="" style="width:17px; height:17px; object-fit:contain;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#d98a2b; font-weight:600;">Bonus round · optional · +{{ bonusXp }} XP</span></div>
+                  <sc-if value="{{ bonusDone }}" hint-placeholder-val="{{ false }}"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:#1f8a5b;">✓ claimed</span></sc-if>
+                  <sc-if value="{{ bonusNotDone }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px; color:#b58a4a;">{{ bonusChevron }}</span></sc-if>
+                </div>
+                <sc-if value="{{ bonusOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:0 16px 16px;">
+                    <div style="font-size:14px; line-height:1.5; color:#1f2a28; opacity:0.9; margin-bottom:10px;">{{ bonusTaskEl }}</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:stretch;">
+                      <textarea value="{{ bonusText }}" onChange="{{ onBonusChange }}" spellcheck="false" placeholder="Bonus answer…" style="min-height:96px; resize:vertical; border:1px solid #ecd8b8; border-radius:10px; outline:none; padding:10px 12px; font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.7; color:#1f2a28; background:#fff;"></textarea>
+                      <div style="border:1px solid #ecd8b8; border-radius:10px; background:#fff; padding:9px 13px; overflow:auto;">{{ bonusPreviewEl }}</div>
+                    </div>
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:10px;">
+                      <div style="font-size:13px; color:{{ bonusStatusColor }};">{{ bonusStatusMsg }}</div>
+                      <sc-if value="{{ bonusNotDone }}" hint-placeholder-val="{{ true }}">
+                        <button onClick="{{ checkBonus }}" style="border:none; cursor:pointer; font-family:'Spectral',serif; font-weight:600; font-size:13px; color:#5a4300; background:#f7b733; padding:9px 18px; border-radius:20px; flex-shrink:0;">Claim bonus</button>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+
+              <!-- QUIZ -->
+              <div style="margin-top:12px; border:1px solid #e4e6e4; border-radius:14px; padding:16px; background:#fbfdfc;">
+                <div style="display:flex; align-items:center; gap:9px; margin-bottom:10px;"><img src="assets/brain.png" alt="" style="width:18px; height:18px; object-fit:contain;"><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#4abdac; font-weight:600;">Quick check — answer to finish</span></div>
+                <div style="font-size:15.5px; font-weight:500; margin-bottom:12px;">{{ quizQuestion }}</div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <sc-for list="{{ quizOptions }}" as="opt" hint-placeholder-count="4">
+                    <div onClick="{{ opt.pick }}" style="display:flex; align-items:center; gap:11px; padding:11px 14px; border:1.5px solid {{ opt.border }}; background:{{ opt.bg }}; border-radius:11px; cursor:{{ opt.cursor }};">
+                      <div style="width:22px; height:22px; flex-shrink:0; border-radius:50%; border:1.5px solid {{ opt.dotBorder }}; background:{{ opt.dotBg }}; color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; font-family:'JetBrains Mono',monospace;">{{ opt.mark }}</div>
+                      <div style="font-size:14px; color:#1f2a28;">{{ opt.label }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ showQuizFeedback }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top:11px; font-size:13.5px; color:{{ quizFeedbackColor }}; font-style:italic;">{{ quizFeedback }}</div>
+                </sc-if>
+              </div>
+
+              <!-- PERSISTENT CONTINUE (visible whenever the lesson is fully done) -->
+              <sc-if value="{{ lessonDone }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:14px; padding-top:14px; border-top:1px dashed #e0e2e0;">
+                  <div style="font-size:13.5px; color:#1f8a5b; font-style:italic;">{{ lessonDoneNote }}</div>
+                  <button onClick="{{ goNext }}" style="border:none; cursor:pointer; font-family:'Spectral',serif; font-weight:600; font-size:14px; color:#fff; background:#4abdac; padding:11px 26px; border-radius:24px; flex-shrink:0;">{{ nextLabel }}</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <div style="height:22px;"></div>
+        </div>
+      </sc-if>
+
+      <!-- ====== EXAM VIEW ====== -->
+      <sc-if value="{{ isExam }}" hint-placeholder-val="{{ false }}">
+        <div style="width:720px; max-width:100%; background:#ffffff; border-radius:20px; box-shadow:0 14px 44px rgba(31,42,40,0.10), 0 2px 6px rgba(31,42,40,0.06); overflow:hidden;">
+          <div style="height:6px; background:linear-gradient(90deg,#4abdac 0 40%,#f7b733 40% 70%,#fc4a1a 70% 100%);"></div>
+          <div style="padding:24px 28px 0;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#fc4a1a; font-weight:600;">// final_exam</div>
+            <div style="font-family:'DM Serif Display',serif; font-size:40px; line-height:1.02; margin-top:5px; display:flex; align-items:center; gap:10px;">The Grand Markdown <img src="assets/trophy.png" alt="" style="width:34px; height:34px; object-fit:contain;"></div>
+            <p style="margin:12px 0 0; font-size:16px; line-height:1.55; color:#1f2a28; opacity:0.78;">Write a tiny post — about your weekend, a recipe, anything — that shows off <strong>every</strong> trick you learned. The checklist on the right lights up green as you nail each one. Turn them <strong>all</strong> green to graduate.</p>
+          </div>
+          <div style="margin:18px 28px 0; display:grid; grid-template-columns:1.15fr 0.85fr; gap:14px; align-items:stretch;">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="border:1px solid #e4e6e4; border-radius:12px; overflow:hidden; display:flex; flex-direction:column; min-height:320px;">
+                <div style="display:flex; align-items:center; gap:6px; padding:8px 12px; background:#e7f4f1;"><span style="width:9px; height:9px; border-radius:50%; background:#b7c2c0;"></span><span style="width:9px; height:9px; border-radius:50%; background:#b7c2c0;"></span><span style="width:9px; height:9px; border-radius:50%; background:#b7c2c0;"></span><span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#7f9c97; margin-left:4px;">final-exam.md</span></div>
+                <textarea value="{{ examText }}" onChange="{{ onExamChange }}" spellcheck="false" placeholder="Write your markdown masterpiece here…" style="flex:1; width:100%; resize:vertical; border:none; outline:none; padding:13px 15px; font-family:'JetBrains Mono',monospace; font-size:13.5px; line-height:1.85; color:#1f2a28; background:#fff;"></textarea>
+              </div>
+              <sc-if value="{{ showExamPeekRow }}" hint-placeholder-val="{{ true }}">
+                <div>
+                  <div onClick="{{ toggleExamPeek }}" style="display:inline-flex; align-items:center; gap:7px; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#4abdac; font-weight:600; user-select:none;"><img src="assets/magnifier.png" alt="" style="width:17px; height:17px; object-fit:contain;">{{ examPeekLabel }}</div>
+                  <sc-if value="{{ showExamPeek }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:10px; border:1px solid #ffe0c2; background:#fff7ef; border-radius:12px; padding:12px 14px;">
+                      <div style="font-size:13px; color:#9a6a2a; margin-bottom:8px; font-style:italic;">A sample that ticks every box — make yours different!</div>
+                      {{ examExampleEl }}
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-if>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="border:1px solid #e4e6e4; border-radius:12px; background:#fbfbfa; padding:11px 14px; flex:1; overflow:auto; min-height:150px;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-bottom:8px;">preview</div>
+                {{ examPreviewEl }}
+              </div>
+              <div style="border:1px solid #e4e6e4; border-radius:12px; background:#fff; padding:12px 14px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:9px;"><span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:#9aa3a1;">Checklist</span><span style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:#4abdac;">{{ examCount }}</span></div>
+                <sc-for list="{{ examChecks }}" as="ck" hint-placeholder-count="15">
+                  <div style="display:flex; align-items:center; gap:8px; padding:3px 0;">
+                    <div style="width:18px; height:18px; flex-shrink:0; border-radius:5px; background:{{ ck.bg }}; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">{{ ck.mark }}</div>
+                    <span style="font-size:12.5px; color:{{ ck.color }};">{{ ck.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; padding:18px 28px 24px;">
+            <div style="font-size:14px; color:{{ examStatusColor }}; font-style:italic;">{{ examStatus }}</div>
+            <button onClick="{{ submitExam }}" style="border:none; cursor:{{ examCursor }}; font-family:'Spectral',serif; font-weight:600; font-size:15px; color:#fff; background:{{ examBtnBg }}; padding:12px 30px; border-radius:26px; box-shadow:0 6px 16px rgba(252,74,26,0.26);">{{ examBtnLabel }}</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ====== CERTIFICATE VIEW ====== -->
+      <sc-if value="{{ isCert }}" hint-placeholder-val="{{ false }}">
+        <div style="width:560px; max-width:100%; background:#ffffff; border-radius:20px; box-shadow:0 14px 44px rgba(31,42,40,0.10); overflow:hidden; text-align:center;">
+          <div style="height:6px; background:linear-gradient(90deg,#4abdac 0 40%,#f7b733 40% 70%,#fc4a1a 70% 100%);"></div>
+          <div style="padding:34px 34px 38px;">
+            <img src="assets/grad.png" alt="graduation cap" style="width:58px; height:58px; object-fit:contain;">
+            <div style="font-family:'DM Serif Display',serif; font-size:32px; margin-top:8px;">You're certified!</div>
+            <p style="font-size:15.5px; color:#1f2a28; opacity:0.75; line-height:1.55; margin:10px 0 0;">Pop your name on the certificate, then print it or save it as a PDF to hang on the fridge / flex on LinkedIn.</p>
+            <input value="{{ nameField }}" onChange="{{ onNameChange }}" placeholder="Your name" style="margin-top:20px; width:100%; text-align:center; border:1.5px solid #e4e6e4; border-radius:12px; padding:13px 14px; font-family:'Spectral',serif; font-size:17px; color:#1f2a28; outline:none;">
+            <button onClick="{{ openCert }}" style="margin-top:14px; width:100%; border:none; cursor:pointer; font-family:'Spectral',serif; font-weight:600; font-size:15px; color:#fff; background:#fc4a1a; padding:13px 0; border-radius:26px; box-shadow:0 6px 16px rgba(252,74,26,0.26); display:flex; align-items:center; justify-content:center; gap:8px;">Open my certificate <img src="assets/party.png" alt="" style="width:18px; height:18px; object-fit:contain;"></button>
+            <div style="margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#aab2b0;">Opens in a new tab · works with your browser's Print → Save as PDF</div>
+            <div style="margin-top:20px; padding-top:18px; border-top:1px dashed #e4e6e4;">
+              <div style="font-size:13.5px; color:#7f8a88; line-height:1.5; margin-bottom:11px;">This course is free and always will be. If it made Markdown click for you, you can toss a coffee in the jar — totally optional, hugely appreciated.</div>
+              <a href="https://ko-fi.com/mentalkettle" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; font-family:'Spectral',serif; font-weight:600; font-size:14px; color:#5a4300; background:#f7b733; text-decoration:none; padding:11px 22px; border-radius:24px;">☕ Buy me a coffee</a>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid #e4e6e4; background:#ffffff; padding:22px 28px;">
+    <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#9aa3a1;">© 2026 Markdown Course · Interactive Markdown Learning Tool</div>
+      <nav style="display:flex; flex-wrap:wrap; gap:16px; font-family:'IBM Plex Mono',monospace; font-size:12px;">
+        <a href="guide.html" style="color:#7f8a88; text-decoration:none;">How it works</a>
+        <a href="reading-room.html" style="color:#7f8a88; text-decoration:none;">Reading Room</a>
+        <a href="history.html" style="color:#7f8a88; text-decoration:none;">History</a>
+        <a href="about.html" style="color:#7f8a88; text-decoration:none;">About</a>
+        <a href="contact.html" style="color:#7f8a88; text-decoration:none;">Contact</a>
+        <a href="privacy.html" style="color:#7f8a88; text-decoration:none;">Privacy</a>
+        <a href="terms.html" style="color:#7f8a88; text-decoration:none;">Terms</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- CELEBRATION -->
+  <sc-if value="{{ showCelebrate }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeCelebrate }}" style="position:fixed; inset:0; background:rgba(31,42,40,0.45); display:flex; align-items:center; justify-content:center; z-index:50; animation:fadein .2s ease;">
+      <div style="width:400px; max-width:90vw; background:#fff; border-radius:22px; padding:30px 30px 26px; text-align:center; box-shadow:0 30px 70px rgba(0,0,0,0.32); animation:pop .38s cubic-bezier(.2,1.3,.4,1);">
+        <div style="width:78px; height:78px; margin:0 auto; border-radius:20px; background:#fc4a1a; display:flex; align-items:center; justify-content:center; color:#fff; font-size:36px; box-shadow:0 12px 26px rgba(252,74,26,.35); animation:wiggle 1.6s ease-in-out infinite;"><img src="assets/star.png" alt="" style="width:42px; height:42px; object-fit:contain;"></div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:#9aa3a1; margin-top:18px;">Badge unlocked</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:27px; margin-top:3px;">{{ celebTitle }}</div>
+        <div style="display:inline-block; margin-top:12px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; color:#5a4300; background:#f7b733; padding:6px 15px; border-radius:20px;">+{{ celebXp }} XP</div>
+        <div style="font-size:15px; color:#1f2a28; opacity:0.72; font-style:italic; margin-top:14px; line-height:1.45;">{{ celebMsg }}</div>
+        <div style="margin-top:16px; padding:13px 15px; background:#f1faf8; border:1px solid #d7eee9; border-radius:13px; text-align:left; display:flex; gap:10px;">
+          <span style="font-size:15px;">✦</span>
+          <div><div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:#4abdac; font-weight:600; margin-bottom:3px;">Fun fact</div><div style="font-size:13.5px; line-height:1.5; color:#2a5450;">{{ celebFact }}</div></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <button onClick="{{ closeCelebrate }}" style="flex:1; border:1.5px solid #e4e6e4; background:#fff; cursor:pointer; font-family:'Spectral',serif; font-size:14px; color:#7f8a88; padding:11px 0; border-radius:24px;">Stay here</button>
+          <button onClick="{{ goNext }}" style="flex:2; border:none; cursor:pointer; font-family:'Spectral',serif; font-weight:600; font-size:14px; color:#fff; background:#fc4a1a; padding:11px 0; border-radius:24px;">{{ celebCta }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- EXAM PASS -->
+  <sc-if value="{{ showExamPass }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; background:rgba(31,42,40,0.5); display:flex; align-items:center; justify-content:center; z-index:60; animation:fadein .2s ease;">
+      <div style="width:420px; max-width:90vw; background:#fff; border-radius:24px; padding:34px 32px 28px; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.36); animation:pop .42s cubic-bezier(.2,1.3,.4,1);">
+        <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
+          <img src="assets/party.png" alt="" style="width:34px; height:34px; object-fit:contain; transform:scaleX(-1);">
+          <img src="assets/trophy.png" alt="trophy" style="width:64px; height:64px; object-fit:contain;">
+          <img src="assets/party.png" alt="" style="width:34px; height:34px; object-fit:contain;">
+        </div>
+        <div style="font-family:'DM Serif Display',serif; font-size:30px; margin-top:10px;">Exam passed!</div>
+        <div style="display:inline-block; margin-top:12px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; color:#5a4300; background:#f7b733; padding:6px 15px; border-radius:20px;">+{{ examXp }} XP · Markdown Master</div>
+        <div style="font-size:15px; color:#1f2a28; opacity:0.72; font-style:italic; margin-top:14px; line-height:1.45;">You used every trick in the book. Honestly? Chef's kiss. <img src="assets/chef.png" alt="chef" style="width:22px; height:22px; object-fit:contain; vertical-align:-5px;"></div>
+        <button onClick="{{ goCert }}" style="margin-top:22px; width:100%; border:none; cursor:pointer; font-family:'Spectral',serif; font-weight:600; font-size:15px; color:#fff; background:#fc4a1a; padding:13px 0; border-radius:26px; box-shadow:0 6px 16px rgba(252,74,26,0.26); display:flex; align-items:center; justify-content:center; gap:8px;">Claim my certificate <img src="assets/grad.png" alt="" style="width:20px; height:20px; object-fit:contain;"></button>
+        <a href="https://ko-fi.com/mentalkettle" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; justify-content:center; gap:7px; margin-top:12px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:#7f8a88; text-decoration:none;">Enjoyed it? <span style="color:#5a4300; background:#f7b733; padding:3px 11px; border-radius:16px; font-family:'Spectral',serif; font-weight:600;">☕ Buy me a coffee</span></a>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:820},&quot;peekEnabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;witty&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
+const CODE = "font-family:'JetBrains Mono',monospace;background:#ffe3da;color:#fc4a1a;padding:1px 6px;border-radius:6px;font-size:0.9em;";
+
+const LESSONS = [
+  { t:'Headings',
+    blurb:`Pop a <code style="${CODE}">#</code> in front of a line and it turns into a heading. More hashes &rarr; smaller heading. Six levels, zero CSS.`,
+    tip:'The space matters! `#Heading` does nothing, but `# Heading` works. Markdown needs that little breath after the hash.',
+    task:'Time to write your memoir. Make `My Brilliant Life` the title (biggest heading) and `Chapter 1: The Snack Years` a smaller heading under it.',
+    starter:'', solution:'# My Brilliant Life\n## Chapter 1: The Snack Years', xp:20,
+    example:'# Dinner Menu\n## Appetizers',
+    bonusTask:'Go one level deeper: add a level-3 heading that says `A Note on Cheese`.',
+    bonusSolution:'### A Note on Cheese', bonusXp:10,
+    quiz:{ q:'Which line makes the SMALLEST heading?', options:['# Tiny','###### Tiny','Tiny #','*Tiny*'], answer:1, why:'Six hashes = the smallest of the six heading sizes.' },
+    badge:'Heading Hero', msg:'The # key never saw it coming.',
+    fact:'The # symbol has many names: hash, pound, and the gloriously nerdy "octothorpe" — reportedly coined by Bell Labs engineers in the 1960s.' },
+
+  { t:'Line Breaks',
+    blurb:`Want a new line <em>without</em> starting a new paragraph? End a line with <strong>two spaces</strong> and press Enter. Markdown turns that into a hard line break (an HTML <code style="${CODE}">&lt;br&gt;</code>), so the next line sits right underneath.`,
+    tip:'Those two spaces are invisible! If you can\u2019t tell they\u2019re there, you can end the line with a backslash `\\` instead — it does the same job.',
+    task:'Write a tiny couplet on two lines in ONE paragraph. End the first line with two spaces so `Roses are red` and `Violets are blue` stack:\n`Roses are red`\n`Violets are blue`',
+    starter:'', solution:'Roses are red  \nViolets are blue', xp:25,
+    example:'Knock, knock  \nWho\u2019s there?',
+    bonusTask:'Make a 3-line sign-off in one block (two spaces at the end of the first two lines):\n`Cheers,`\n`The Team`\n`Markdown HQ`',
+    bonusSolution:'Cheers,  \nThe Team  \nMarkdown HQ', bonusXp:12,
+    quiz:{ q:'How do you break to a new line WITHOUT a new paragraph?', options:['Press Enter twice','End the line with two spaces, then Enter','Type a leading #','Wrap the line in **'], answer:1, why:'Two spaces at the end of a line tell Markdown to insert a line break.' },
+    badge:'Line Breaker', msg:'New line, same paragraph. Slick.',
+    fact:'Those two trailing spaces are Markdown\u2019s most invisible feature — many editors show a faint dot or warn you so you don\u2019t accidentally delete them.' },
+
+  { t:'Bold & Italic',
+    blurb:`Wrap text in <code style="${CODE}">**</code> for <strong>bold</strong>, or a single <code style="${CODE}">*</code> for <em>italic</em>. Underscores work too: <code style="${CODE}">_italic_</code> and <code style="${CODE}">__bold__</code> do the same thing.`,
+    tip:'Stars and underscores both work — but underscores ignore the middle of a word, so `file_name_here` stays normal. For emphasis inside a word, reach for stars.',
+    task:'Gossip time. In `I cannot believe she said that`, make `cannot` bold and `that` italic for maximum flair.',
+    starter:'I cannot believe she said that', solution:'I **cannot** believe she said *that*', xp:25,
+    example:'She was **absolutely** *thrilled*',
+    bonusTask:'Triple the stars for double the power: make the word `everything` both bold AND italic.',
+    bonusSolution:'***everything***', bonusXp:10,
+    quiz:{ q:'Which one makes text italic?', options:['**word**','*word*','~~word~~','`word`'], answer:1, why:'One star (or one underscore) on each side = italic. Two = bold.' },
+    badge:'Emphasis Expert', msg:'Bold move. Italic, too.',
+    fact:'Those stars come straight from old plain-text emails, where people typed *asterisks* around words to fake bold long before formatting buttons existed.' },
+
+  { t:'Strikethrough',
+    blurb:`Wrap text in <code style="${CODE}">~~</code> on both sides and it shows up <del>struck through</del>. Perfect for edits, crossed-off plans, and a little drama.`,
+    tip:'Two tildes on EACH side: `~~text~~`. The tilde ( ~ ) usually lives at the top-left of the keyboard — Shift + the key above Tab.',
+    task:'The price dropped! In `Now 20 was 35`, strike through `was 35` so it reads like a discount.',
+    starter:'Now 20 was 35', solution:'Now 20 ~~was 35~~', xp:25,
+    example:'~~Cancelled~~ Rescheduled',
+    bonusTask:'Mix two formats: in `Old plan New plan`, strike through `Old plan` and make `New plan` bold.',
+    bonusSolution:'~~Old plan~~ **New plan**', bonusXp:12,
+    quiz:{ q:'How do you strike through text?', options:['--text--','~~text~~','**text**','~text~'], answer:1, why:'Two tildes on each side: ~~like this~~.' },
+    badge:'Strikethrough Slayer', msg:'Crossed out in style.',
+    fact:'Strikethrough isn\u2019t in original Markdown — it\u2019s a GitHub Flavored Markdown add-on, made for those \u201Coops, never mind\u201D moments.' },
+
+  { t:'Lists',
+    blurb:`Start a line with <code style="${CODE}">-</code> for a bullet, or <code style="${CODE}">1.</code> for a numbered list. The magic: Markdown auto-numbers, so even <code style="${CODE}">1.</code> on every line still renders 1, 2, 3. Both <code style="${CODE}">1.</code> and <code style="${CODE}">1)</code> work.`,
+    tip:'Indent items by two spaces to nest a list under another. And don\u2019t sweat the numbers — `1. 1. 1.` still comes out 1, 2, 3.',
+    task:'Pack for the ultimate road trip. Make a bullet list with three items: `Snacks`, `Playlist`, `Sunglasses`.',
+    starter:'', solution:'- Snacks\n- Playlist\n- Sunglasses', xp:30,
+    example:'- Milk\n- Eggs\n- Bread',
+    bonusTask:'Build a nested list — under a bullet `Fruit`, indent (two spaces) two items `Apple` and `Banana`:\n`- Fruit`\n`  - Apple`\n`  - Banana`',
+    bonusSolution:'- Fruit\n  - Apple\n  - Banana', bonusXp:14,
+    quiz:{ q:'You write `1.` on three lines in a row. What shows up?', options:['1, 1, 1','1, 2, 3','Just one item','An error'], answer:1, why:'Markdown auto-numbers ordered lists, so it renders 1, 2, 3.' },
+    badge:'List Wrangler', msg:'Three for three. Very tidy.',
+    fact:'In numbered lists Markdown ignores your actual numbers — type 1. 1. 1. and it still renders 1, 2, 3. Beautifully lazy.' },
+
+  { t:'Links',
+    blurb:`A link is two brackets, then two parentheses: <code style="${CODE}">[text](url)</code>. Label first, address second.`,
+    tip:'Brackets hug the words, parentheses hug the URL: `[text](url)`. Swap them and it won\u2019t link.',
+    task:'Recommend a classic. Turn the word `Wikipedia` into a link pointing to https://wikipedia.org',
+    starter:'Wikipedia', solution:'[Wikipedia](https://wikipedia.org)', xp:35,
+    example:'[Visit Google](https://google.com)',
+    bonusTask:'Links work mid-sentence too. In `Read more on the blog`, make `the blog` link to https://example.com',
+    bonusSolution:'Read more on [the blog](https://example.com)', bonusXp:12,
+    quiz:{ q:'Which is a correctly written link?', options:['(text)[url]','[text](url)','<text=url>','{text:url}'], answer:1, why:'Square brackets for the text, round brackets for the URL.' },
+    badge:'Link Ranger', msg:'Connected. The web thanks you.',
+    fact:'Learn [text](url) once and you\u2019ve basically learned images, footnotes and reference links too — they all reuse the same shape.' },
+
+  { t:'Inline Code',
+    blurb:`Wrap a snippet in backticks <code style="${CODE}">\u0060</code> and it becomes code &mdash; monospaced and literal. Perfect for commands and filenames.`,
+    tip:'Backticks ( ` ) live on the key above Tab, NOT the apostrophe ( \u2019 ). They look alike but only backticks work.',
+    task:'Help a teammate. In `Type git push to upload`, turn `git push` into inline code.',
+    starter:'Type git push to upload', solution:'Type `git push` to upload', xp:30,
+    example:'Run `npm install` first',
+    bonusTask:'Wrap a filename: in `Open index.html`, make `index.html` inline code.',
+    bonusSolution:'Open `index.html`', bonusXp:10,
+    quiz:{ q:'Which character makes inline code?', options:['\u2019 apostrophe','` backtick','" quote','^ caret'], answer:1, why:'The backtick — top-left of most keyboards — wraps inline code.' },
+    badge:'Code Whisperer', msg:'Monospaced and majestic.',
+    fact:'The backtick is older than computers: it comes from typewriters and was used as a "grave accent" over letters like \u00E0.' },
+
+  { t:'Code Blocks',
+    blurb:`For more than one line, fence your code between triple backticks <code style="${CODE}">\u0060\u0060\u0060</code> on their own lines. Everything inside shows exactly as typed.`,
+    tip:'The opening fence and the closing fence (three backticks each) go on their OWN lines — nothing else beside them.',
+    task:'Share a two-line snippet. Put these lines inside a code block:\n`name = "Sam"`\n`print(name)`',
+    starter:'', solution:'```\nname = "Sam"\nprint(name)\n```', xp:35,
+    example:'```\nhello = "world"\nprint(hello)\n```',
+    bonusTask:'Make a code block containing exactly one line: `console.log("hi")`.',
+    bonusSolution:'```\nconsole.log("hi")\n```', bonusXp:12,
+    quiz:{ q:'How do you START a multi-line code block?', options:['One backtick','Triple backticks ```','Three hashes ###','A dash -'], answer:1, why:'Three backticks open a fenced code block; three more close it.' },
+    badge:'Block Architect', msg:'Fenced, framed, flawless.',
+    fact:'These are called "fenced code blocks." GitHub popularized them so you no longer had to indent every single line by four spaces.' },
+
+  { t:'Blockquotes',
+    blurb:`Start a line with <code style="${CODE}">&gt;</code> to quote someone — it adds a tidy bar and an indent. For a multi-line quote you only need <code style="${CODE}">&gt;</code> on the first line; parsers are \u201Clazy\u201D and carry it down the paragraph.`,
+    tip:'A space after `>` reads best (`> quote`). For a multi-line quote, `>` on the first line is enough — the lines that follow join the same quote.',
+    task:'Quote a legend. Turn `To be or not to be` into a blockquote.',
+    starter:'To be or not to be', solution:'> To be or not to be', xp:25,
+    example:'> I came, I saw, I conquered.',
+    bonusTask:'Make a two-line quote the lazy way — put `>` on just the FIRST line:\n`> Line one`\n`Line two`',
+    bonusSolution:'> Line one\nLine two', bonusXp:12,
+    quiz:{ q:'Which symbol starts a blockquote?', options:['>','<','" ','//'], answer:0, why:'The greater-than sign ( > ) turns a line into a quote.' },
+    badge:'Quote Master', msg:'Beautifully said.',
+    fact:'Email replies have marked quoted text with > for decades — Markdown borrowed it so it feels instantly familiar.' },
+
+  { t:'Images',
+    blurb:`An image is just a link with a <code style="${CODE}">!</code> in front: <code style="${CODE}">![alt](url)</code>. The alt text describes the picture; the URL points to it.`,
+    tip:'Don\u2019t forget the leading `!` — `[..](..)` is a link, but `![..](..)` is an image. Type the cat below and watch the preview!',
+    task:'Embed a picture. Write an image with the alt text `A happy cat` pointing to https://example.com/cat.jpg',
+    starter:'', solution:'![A happy cat](https://example.com/cat.jpg)', xp:35,
+    example:'![Sunset over the sea](https://example.com/sunset.jpg)',
+    bonusTask:'Add another: an image with alt `Company logo` from https://example.com/logo.png',
+    bonusSolution:'![Company logo](https://example.com/logo.png)', bonusXp:12,
+    quiz:{ q:'What turns a link into an image?', options:['A leading !','A trailing !','Curly braces {}','ALL CAPS'], answer:0, why:'An exclamation mark in front of [alt](url) makes it an image.' },
+    badge:'Picture Perfect', msg:'Worth a thousand words.',
+    fact:'Alt text isn\u2019t just polite — screen readers read it aloud, and it shows up if the image fails to load. Always describe your images.' },
+
+  { t:'Task Lists',
+    blurb:`Make checkboxes with <code style="${CODE}">- [ ]</code> for unchecked and <code style="${CODE}">- [x]</code> for done. Perfect for to-dos and shipping checklists.`,
+    tip:'Mind the spaces: `- [ ]` has a space between the brackets; `- [x]` uses a lowercase x.',
+    task:'Plan your morning. Make a task list with an unchecked `Wake up` and a checked `Coffee`.',
+    starter:'', solution:'- [ ] Wake up\n- [x] Coffee', xp:30,
+    example:'- [x] Write code\n- [ ] Test code',
+    bonusTask:'Add one more, already done: a checked task that says `Ship it`.',
+    bonusSolution:'- [x] Ship it', bonusXp:10,
+    quiz:{ q:'How do you mark a task as DONE?', options:['- [ ] task','- [x] task','- (done) task','* task!'], answer:1, why:'A lowercase x between the brackets checks the box.' },
+    badge:'Checkbox Champion', msg:'Checked and balanced.',
+    fact:'Task lists aren\u2019t part of original Markdown — GitHub added them, and now they power millions of issue checklists every single day.' },
+
+  { t:'Dividers',
+    blurb:`Put three or more dashes <code style="${CODE}">---</code> (or <code style="${CODE}">***</code> or <code style="${CODE}">___</code>) alone on a line to draw a horizontal divider — a clean \u201Cthematic break\u201D between sections.`,
+    tip:'Critical: leave a blank line BEFORE and AFTER your `---`. Dashes directly under a line of text can turn that text into a heading instead!',
+    task:'Split two thoughts with a divider between them (note the blank lines):\n`The end.`\n( divider here )\n`Or is it?`',
+    starter:'', solution:'The end.\n\n---\n\nOr is it?', xp:30,
+    example:'First part\n\n---\n\nSecond part',
+    bonusTask:'Three asterisks work too. Put a divider between `Top` and `Bottom` using `***`.',
+    bonusSolution:'Top\n\n***\n\nBottom', bonusXp:10,
+    quiz:{ q:'Which makes a horizontal divider?', options:['Three dashes ---','Two dashes --','An equals sign =','A single slash /'], answer:0, why:'Three or more dashes (or *** or ___) draw a horizontal rule.' },
+    badge:'Section Breaker', msg:'A clean break. Chef\u2019s kiss.',
+    fact:'`---`, `***`, and `___` all draw the exact same line. Markdown loves giving you three ways to do one thing.' },
+];
+
+const EXAM = {
+  example:'# My Weekend\n## Saturday\n\nMorning plan:  \nWake up early, then hit the trail.\n\nI went **hiking** and it was *amazing* — ~~exhausting~~ but worth it.\n\n- Trail mix\n- Water\n\n1. Wake up\n2. Hike\n\nA tip from a [park guide](https://example.com):\n\n> Always pack out what you pack in.\n\nRun `npm run hike` to start:\n\n```\nwake_up()\nhike()\n```\n\n![A happy cat](https://example.com/cat.jpg)\n\n- [x] Reach the summit\n- [ ] Nap\n\n---\n\nUntil next weekend!',
+  xp:120,
+};
+
+const LAST_LESSON = LESSONS.length - 1;
+const EXAM_IDX = LESSONS.length;
+const CERT_IDX = LESSONS.length + 1;
+
+class Component extends DCLogic {
+  state = {
+    idx:0, text:LESSONS[0].starter, bonusText:'',
+    prog:{}, xp:0, streak:0,
+    peek:false, status:'idle', bonusOpen:false, bonusStatus:'idle',
+    quizPick:null, celebrate:null,
+    examText:'', examPeek:false, examPassed:false, showExamPass:false,
+    name:'', sound:true,
+  };
+
+  componentDidMount() {
+    try {
+      const s = JSON.parse(localStorage.getItem('md101_v3') || 'null');
+      if (s) this.setState({
+        idx:s.idx||0, xp:s.xp||0, prog:s.prog||{}, streak:s.streak||0,
+        examPassed:!!s.examPassed, name:s.name||'', sound:s.sound!==false,
+        text:(LESSONS[s.idx||0]||{}).starter||'', bonusText:'', peek:false, status:'idle', quizPick:null,
+      });
+    } catch(e) {}
+  }
+
+  persist(extra) {
+    const s = { idx:this.state.idx, xp:this.state.xp, prog:this.state.prog, streak:this.state.streak,
+      examPassed:this.state.examPassed, name:this.state.name, sound:this.state.sound, ...extra };
+    try { localStorage.setItem('md101_v3', JSON.stringify(s)); } catch(e) {}
+  }
+
+  scrollTop() {
+    try { requestAnimationFrame(()=>window.scrollTo({ top:0, left:0, behavior:'auto' })); }
+    catch(e) { try { window.scrollTo(0,0); } catch(_) {} }
+  }
+
+  /* ---------- AUDIO ---------- */
+  ensureAudio() {
+    if (!this.state.sound) return null;
+    if (!this._ac) { try { this._ac = new (window.AudioContext||window.webkitAudioContext)(); } catch(e){ return null; } }
+    if (this._ac.state === 'suspended') this._ac.resume();
+    return this._ac;
+  }
+  beep(freq, start, dur, type, vol) {
+    const ac = this._ac; if (!ac) return;
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type||'sine'; o.frequency.value = freq;
+    o.connect(g); g.connect(ac.destination);
+    const t = ac.currentTime + start;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol||0.12, t+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+    o.start(t); o.stop(t+dur+0.02);
+  }
+  sfx(kind) {
+    if (!this.ensureAudio()) return;
+    if (kind==='click') this.beep(420,0,0.07,'triangle',0.07);
+    else if (kind==='correct') { this.beep(587,0,0.12,'triangle',0.1); this.beep(880,0.1,0.16,'triangle',0.1); }
+    else if (kind==='wrong') { this.beep(200,0,0.18,'sawtooth',0.06); }
+    else if (kind==='bonus') { this.beep(660,0,0.1,'triangle',0.09); this.beep(990,0.09,0.14,'triangle',0.09); }
+    else if (kind==='badge') { [523,659,784,1047].forEach((f,i)=>this.beep(f,i*0.08,0.16,'triangle',0.09)); }
+    else if (kind==='win') { [523,659,784,1047,1319].forEach((f,i)=>this.beep(f,i*0.1,0.28,'triangle',0.11)); this.beep(1568,0.6,0.5,'triangle',0.1); }
+  }
+  toggleSound = () => {
+    const sound = !this.state.sound;
+    this.setState({ sound }, ()=>{ if (sound) { this.ensureAudio(); this.sfx('click'); } });
+    this.persist({ sound });
+  };
+
+  /* ---------- CONFETTI ---------- */
+  confetti() {
+    const cv = document.createElement('canvas');
+    cv.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
+    document.body.appendChild(cv);
+    const ctx = cv.getContext('2d');
+    const dpr = window.devicePixelRatio||1;
+    const W = cv.width = innerWidth*dpr, H = cv.height = innerHeight*dpr;
+    const colors = ['#4abdac','#fc4a1a','#f7b733','#1f8a5b','#e6a200'];
+    const N = 160, parts = [];
+    for (let i=0;i<N;i++) parts.push({
+      x:Math.random()*W, y:-Math.random()*H*0.4,
+      vx:(Math.random()-0.5)*6*dpr, vy:(2+Math.random()*5)*dpr,
+      s:(6+Math.random()*8)*dpr, rot:Math.random()*6.28, vr:(Math.random()-0.5)*0.3,
+      c:colors[i%colors.length],
+    });
+    let frames = 0;
+    const tick = () => {
+      frames++; ctx.clearRect(0,0,W,H);
+      parts.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.06*dpr; p.rot+=p.vr;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c;
+        ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6); ctx.restore(); });
+      if (frames < 200) requestAnimationFrame(tick); else cv.remove();
+    };
+    tick();
+  }
+
+  cur() { return LESSONS[this.state.idx]; }
+  progOf(i) { return this.state.prog[i] || {}; }
+  lessonComplete(i) { const p = this.progOf(i); return !!(p.task && p.quiz); }
+
+  /* ---------- MARKDOWN ---------- */
+  esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  instr(s) { let e=this.esc(s); e=e.replace(/`([^`]+)`/g,(m,c)=>`<code style="${CODE}">${c}</code>`); return e.replace(/\n/g,'<br>'); }
+
+  inline(raw) {
+    let s = this.esc(raw);
+    s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (m,a,u)=>{
+      if (/cat\.jpg/i.test(u) || /happy[-_ ]?cat/i.test(u)) {
+        return `<img src="assets/happy-cat.png" alt="${a||'cat'}" style="max-width:100%;max-height:150px;border-radius:10px;display:block;margin:4px 0;border:1px solid #e4e6e4;background:#fff;">`;
+      }
+      return `<span style="display:inline-block;background:repeating-linear-gradient(45deg,#eef0ef,#eef0ef 6px,#e4e6e4 6px,#e4e6e4 12px);border:1px solid #e4e6e4;border-radius:6px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7f8a88;">\u25A6 ${a||'image'}</span>`;
+    });
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m,t,u)=>`<a href="${u}" target="_blank" rel="noopener" style="color:#fc4a1a;text-decoration:underline;">${t}</a>`);
+    s = s.replace(/`([^`]+)`/g, (m,c)=>`<code style="font-family:'JetBrains Mono',monospace;background:#eef0ef;color:#c2410c;padding:1px 5px;border-radius:5px;font-size:0.9em;">${c}</code>`);
+    s = s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<strong>$1</strong>');
+    s = s.replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/(^|[^a-zA-Z0-9])_([^_]+)_/g,'$1<em>$2</em>');
+    s = s.replace(/~~([^~]+)~~/g,'<del>$1</del>');
+    return s;
+  }
+  headStyle(n) { const sz={1:30,2:23,3:19,4:16,5:14,6:13}[n]; return `font-family:'DM Serif Display',serif;font-weight:400;line-height:1.12;margin:0 0 8px;font-size:${sz}px;`; }
+
+  isListLine(s) { return /^(\s*)([-*+]|\d+[.)])\s+/.test(s); }
+  indentOf(line) { const m=line.match(/^(\s*)/); return m[1].replace(/\t/g,'  ').length; }
+
+  parseList(lines, start) {
+    let i = start; const items = [];
+    while (i < lines.length && this.isListLine(lines[i])) { items.push(lines[i]); i++; }
+    let html = '', pos = 0;
+    while (pos < items.length) {
+      const res = this.renderListLevel(items, pos, this.indentOf(items[pos]));
+      html += res.html;
+      pos = (res.pos <= pos) ? pos+1 : res.pos;
+    }
+    return { html, idx: start + items.length };
+  }
+
+  renderListLevel(items, pos, indent) {
+    const m0 = items[pos].match(/^(\s*)([-*+]|\d+[.)])\s+/);
+    const ordered = /\d/.test(m0[2]);
+    const startNum = ordered ? parseInt(m0[2],10) : null;
+    const lis = [];
+    let i = pos;
+    while (i < items.length) {
+      const m = items[i].match(/^(\s*)([-*+]|\d+[.)])\s+([\s\S]*)$/);
+      if (!m) break;
+      const ind = this.indentOf(items[i]);
+      if (ind < indent) break;
+      if (ind === indent) {
+        const thisOrdered = /\d/.test(m[2]);
+        if (thisOrdered !== ordered) break;
+        const content = m[3];
+        const tm = content.match(/^\[([ xX])\]\s+([\s\S]*)$/);
+        let li;
+        if (tm) { const ck = tm[1].toLowerCase()==='x'; li = `<li style="list-style:none;margin-left:-1.4em;">${ck?'\u2611':'\u2610'} ${this.inline(tm[2])}</li>`; }
+        else li = `<li style="margin-bottom:3px;">${this.inline(content)}</li>`;
+        i++;
+        if (i < items.length && this.indentOf(items[i]) > indent) {
+          const child = this.renderListLevel(items, i, this.indentOf(items[i]));
+          li = li.replace(/<\/li>$/, child.html + '</li>');
+          i = child.pos;
+        }
+        lis.push(li);
+      } else { // ind > indent without a same-level parent — nest defensively
+        const child = this.renderListLevel(items, i, ind);
+        if (lis.length) lis[lis.length-1] = lis[lis.length-1].replace(/<\/li>$/, child.html + '</li>');
+        else lis.push(child.html);
+        i = child.pos;
+      }
+    }
+    const tag = ordered ? 'ol' : 'ul';
+    const startAttr = (ordered && startNum && startNum !== 1) ? ` start="${startNum}"` : '';
+    const pad = ordered ? '1.5em' : '1.4em';
+    return { html:`<${tag}${startAttr} style="margin:0 0 10px;padding-left:${pad};">${lis.join('')}</${tag}>`, pos:i };
+  }
+
+  mdToHtml(src) {
+    const lines = (src||'').replace(/\r\n/g,'\n').split('\n'); const out=[]; let i=0;
+    while (i<lines.length) {
+      let line = lines[i];
+      if (/^```/.test(line.trim())) { const buf=[]; i++; while (i<lines.length && !/^```/.test(lines[i].trim())) { buf.push(lines[i]); i++; } i++;
+        out.push(`<pre style="background:#1f2a28;color:#e7f4f1;padding:12px 14px;border-radius:10px;overflow:auto;margin:0 0 10px;"><code style="font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.6;">${this.esc(buf.join('\n'))}</code></pre>`); continue; }
+      if (/^\s*$/.test(line)) { i++; continue; }
+      if (/^\s*([-*_])\1{2,}\s*$/.test(line)) { out.push('<hr style="border:none;border-top:1px solid #d8dcd9;margin:14px 0;">'); i++; continue; }
+      const h = line.match(/^(#{1,6})\s+(.*)$/);
+      if (h) { const n=h[1].length; out.push(`<h${n} style="${this.headStyle(n)}">${this.inline(h[2])}</h${n}>`); i++; continue; }
+      if (/^\s*>\s?/.test(line)) {
+        const buf=[];
+        while (i<lines.length && lines[i].trim()!=='' && !/^\s*([-*_])\1{2,}\s*$/.test(lines[i]) && !/^\s*#{1,6}\s/.test(lines[i]) && !/^```/.test(lines[i].trim()) && !this.isListLine(lines[i])) {
+          buf.push(lines[i].replace(/^\s*>\s?/,'')); i++;
+        }
+        out.push(`<blockquote style="border-left:3px solid #4abdac;margin:0 0 10px;padding:2px 0 2px 14px;color:#4a5754;font-style:italic;">${buf.map(b=>this.inline(b)).join('<br>')}</blockquote>`); continue;
+      }
+      if (this.isListLine(line)) { const res=this.parseList(lines, i); out.push(res.html); i=res.idx; continue; }
+      const raw=[line]; i++;
+      while (i<lines.length && !/^\s*$/.test(lines[i]) && !/^\s*#{1,6}\s/.test(lines[i]) && !/^\s*>\s?/.test(lines[i]) && !this.isListLine(lines[i]) && !/^```/.test(lines[i].trim()) && !/^\s*([-*_])\1{2,}\s*$/.test(lines[i])) { raw.push(lines[i]); i++; }
+      let parts='';
+      for (let k=0;k<raw.length;k++) {
+        let ln=raw[k];
+        const hard=/( {2,}|\\)\s*$/.test(ln);
+        ln=ln.replace(/( {2,}|\\)\s*$/,'');
+        parts += this.inline(ln) + (k<raw.length-1 ? (hard?'<br>':' ') : '');
+      }
+      out.push(`<p style="margin:0 0 10px;line-height:1.5;">${parts}</p>`);
+    }
+    return out.join('');
+  }
+  norm(s) { return this.mdToHtml(s).replace(/\s+/g,' ').replace(/>\s+</g,'><').trim(); }
+  htmlEl(html, style) { return React.createElement('div', { style:style||{}, dangerouslySetInnerHTML:{ __html:html } }); }
+
+  /* ---------- HANDLERS ---------- */
+  onChange = (e) => this.setState({ text:e.target.value, status:'idle' });
+  onBonusChange = (e) => this.setState({ bonusText:e.target.value, bonusStatus:'idle' });
+
+  check = () => {
+    this.sfx('click');
+    const l = this.cur();
+    if (this.norm(this.state.text) !== this.norm(l.solution)) { this.sfx('wrong'); this.setState({ status:'wrong' }); return; }
+    const already = !!this.progOf(this.state.idx).task;
+    const prog = { ...this.state.prog, [this.state.idx]:{ ...this.progOf(this.state.idx), task:true } };
+    const xp = already ? this.state.xp : this.state.xp + l.xp;
+    this.sfx('correct');
+    this.setState({ prog, xp, status:'done' });
+    this.persist({ prog, xp });
+  };
+
+  toggleBonus = () => { this.sfx('click'); this.setState({ bonusOpen:!this.state.bonusOpen }); };
+  checkBonus = () => {
+    this.sfx('click');
+    const l = this.cur();
+    if (this.norm(this.state.bonusText) !== this.norm(l.bonusSolution)) { this.sfx('wrong'); this.setState({ bonusStatus:'wrong' }); return; }
+    const already = !!this.progOf(this.state.idx).bonus;
+    const prog = { ...this.state.prog, [this.state.idx]:{ ...this.progOf(this.state.idx), bonus:true } };
+    const xp = already ? this.state.xp : this.state.xp + l.bonusXp;
+    this.sfx('bonus');
+    this.setState({ prog, xp, bonusStatus:'done' });
+    this.persist({ prog, xp });
+  };
+
+  pickQuiz = (i) => {
+    if (this.progOf(this.state.idx).quiz) return;
+    this.sfx('click');
+    const l = this.cur();
+    if (i !== l.quiz.answer) { this.sfx('wrong'); this.setState({ quizPick:i }); return; }
+    const prog = { ...this.state.prog, [this.state.idx]:{ ...this.progOf(this.state.idx), quiz:true } };
+    const xp = this.state.xp + 10;
+    const streak = this.state.streak + 1;
+    this.setState({ prog, xp, quizPick:i, streak,
+      celebrate:{ title:l.badge, xp:l.xp+10, msg:l.msg, fact:l.fact, last:this.state.idx>=LAST_LESSON } });
+    this.persist({ prog, xp, streak });
+    setTimeout(()=>this.sfx('badge'), 120);
+  };
+
+  closeCelebrate = () => { this.sfx('click'); this.setState({ celebrate:null }); };
+  goNext = () => {
+    this.sfx('click');
+    const ni = Math.min(this.state.idx + 1, EXAM_IDX);
+    this.setState({ idx:ni, text:(LESSONS[ni]||{}).starter||'', bonusText:'', peek:false, status:'idle',
+      bonusOpen:false, bonusStatus:'idle', quizPick:null, celebrate:null });
+    this.persist({ idx:ni });
+    this.scrollTop();
+  };
+  togglePeek = () => { this.sfx('click'); this.setState({ peek:!this.state.peek }); };
+
+  goTo = (i) => {
+    let unlocked;
+    if (i < EXAM_IDX) unlocked = i===0 || this.lessonComplete(i-1);
+    else if (i === EXAM_IDX) unlocked = LESSONS.every((_,j)=>this.lessonComplete(j));
+    else unlocked = this.state.examPassed;
+    if (!unlocked) { this.sfx('wrong'); return; }
+    this.sfx('click');
+    this.setState({ idx:i, text:(LESSONS[i]||{}).starter||'', bonusText:'', peek:false, status:'idle',
+      bonusOpen:false, bonusStatus:'idle', quizPick:null });
+    this.persist({ idx:i });
+    this.scrollTop();
+  };
+
+  /* ---------- EXAM ---------- */
+  onExamChange = (e) => this.setState({ examText:e.target.value });
+  toggleExamPeek = () => { this.sfx('click'); this.setState({ examPeek:!this.state.examPeek }); };
+  examReqs(t) {
+    const noBold = t.replace(/\*\*[^*]+\*\*/g,'');
+    return [
+      { label:'A big heading (#)', ok:/^#\s+\S/m.test(t) },
+      { label:'A sub-heading (##)', ok:/^##\s+\S/m.test(t) },
+      { label:'A line break (two spaces)', ok:/\S {2,}\r?\n/.test(t) || /\S\\\r?\n/.test(t) },
+      { label:'Bold text (**)', ok:/\*\*[^*\n]+\*\*/.test(t) },
+      { label:'Italic text (*)', ok:/\*[^*\n]+\*/.test(noBold) || /(^|[^_])_[^_\n]+_/.test(t) },
+      { label:'Strikethrough (~~)', ok:/~~[^~\n]+~~/.test(t) },
+      { label:'A bullet list (-)', ok:/^\s*[-*+]\s+\S/m.test(t) },
+      { label:'A numbered list (1.)', ok:/^\s*\d+[.)]\s+\S/m.test(t) },
+      { label:'A link [text](url)', ok:/(^|[^!])\[[^\]]+\]\([^)]+\)/.test(t) },
+      { label:'An image ![alt](url)', ok:/!\[[^\]]*\]\([^)]+\)/.test(t) },
+      { label:'Inline code (`)', ok:/`[^`\n]+`/.test(t.replace(/```[\s\S]*?```/g,'')) },
+      { label:'A code block (```)', ok:/```[\s\S]*?```/.test(t) },
+      { label:'A blockquote (>)', ok:/^\s*>\s?\S/m.test(t) },
+      { label:'A task list (- [ ])', ok:/^\s*[-*+]\s+\[[ xX]\]\s+\S/m.test(t) },
+      { label:'A divider (---)', ok:/^\s*([-*_])\1{2,}\s*$/m.test(t) },
+    ];
+  }
+  submitExam = () => {
+    this.sfx('click');
+    const reqs = this.examReqs(this.state.examText);
+    if (!reqs.every(r=>r.ok)) { this.sfx('wrong'); return; }
+    if (this.state.examPassed) { this.setState({ showExamPass:true }); return; }
+    const xp = this.state.xp + EXAM.xp;
+    this.setState({ examPassed:true, xp, showExamPass:true });
+    this.persist({ examPassed:true, xp });
+    this.sfx('win'); this.confetti();
+    setTimeout(()=>this.confetti(), 500);
+  };
+  goCert = () => { this.sfx('click'); this.setState({ showExamPass:false, idx:CERT_IDX }); this.persist({ idx:CERT_IDX }); this.scrollTop(); };
+
+  /* ---------- CERTIFICATE ---------- */
+  onNameChange = (e) => { this.setState({ name:e.target.value }); };
+  openCert = () => {
+    this.sfx('click');
+    const name = (this.state.name||'').trim() || 'Markdown Graduate';
+    this.persist({ name });
+    try {
+      localStorage.setItem('md101_cert', JSON.stringify({ name, xp:this.state.xp, date:new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}) }));
+    } catch(e) {}
+    window.open('certificate.html','_blank');
+  };
+
+  /* ---------- RENDER ---------- */
+  renderVals() {
+    const st = this.state;
+    const idx = st.idx;
+    const peekEnabled = this.props.peekEnabled ?? true;
+    const witty = this.props.witty ?? true;
+    const xp = st.xp;
+    const level = Math.floor(xp/100) + 1;
+
+    // PROGRESS — course completion (full at the end)
+    const totalSteps = LESSONS.length + 1; // lessons + exam
+    const doneCount = LESSONS.reduce((a,_,j)=>a+(this.lessonComplete(j)?1:0),0) + (st.examPassed?1:0);
+    const progressPct = Math.round(doneCount/totalSteps*100);
+
+    // RAIL
+    const allLessonsDone = LESSONS.every((_,j)=>this.lessonComplete(j));
+    const rail = [];
+    LESSONS.forEach((x,i) => {
+      const unlocked = i===0 || this.lessonComplete(i-1);
+      const dn = this.lessonComplete(i);
+      rail.push({ label:x.t, sub:'Lesson '+String(i+1).padStart(2,'0'), glyph:String(i+1),
+        isDone:dn && i!==idx, isCurrent:i===idx, isLocked:!unlocked && !dn,
+        labelColor:'#1f2a28', rowBg:i===idx?'#eef0ef':'transparent', go:()=>this.goTo(i) });
+    });
+    rail.push({ label:'Final Exam', sub:'The Grand Markdown', glyph:'\u2605',
+      isDone:st.examPassed && idx!==EXAM_IDX, isCurrent:idx===EXAM_IDX, isLocked:!allLessonsDone && !st.examPassed,
+      labelColor:'#1f2a28', rowBg:idx===EXAM_IDX?'#eef0ef':'transparent', go:()=>this.goTo(EXAM_IDX) });
+    rail.push({ label:'Certificate', sub:'Print & share', glyph:'\u{1F393}',
+      isDone:false, isCurrent:idx===CERT_IDX, isLocked:!st.examPassed,
+      labelColor:'#1f2a28', rowBg:idx===CERT_IDX?'#eef0ef':'transparent', go:()=>this.goTo(CERT_IDX) });
+
+    const base = {
+      streak:st.streak, xp, level, progressPct,
+      rail, soundOpacity: st.sound ? 1 : 0.4, soundFilter: st.sound ? 'none' : 'grayscale(1)', toggleSound:this.toggleSound,
+      railFootnote: allLessonsDone ? 'All lessons done — the exam awaits!' : 'Finish a lesson to unlock the next.',
+      isLesson: idx < EXAM_IDX, isExam: idx===EXAM_IDX, isCert: idx===CERT_IDX,
+      showCelebrate: !!st.celebrate, closeCelebrate:this.closeCelebrate,
+      celebTitle: st.celebrate?st.celebrate.title:'', celebXp: st.celebrate?st.celebrate.xp:0,
+      celebMsg: st.celebrate? (witty?st.celebrate.msg:'Lesson complete.') :'', celebFact: st.celebrate?st.celebrate.fact:'',
+      celebCta: st.celebrate&&st.celebrate.last ? 'To the exam →' : 'Next lesson →', goNext:this.goNext,
+      showExamPass: st.showExamPass, examXp:EXAM.xp, goCert:this.goCert,
+      examText:st.examText, onExamChange:this.onExamChange,
+      nameField:st.name, onNameChange:this.onNameChange, openCert:this.openCert,
+    };
+
+    // EXAM view
+    const reqs = this.examReqs(st.examText);
+    const okCount = reqs.filter(r=>r.ok).length;
+    const examChecks = reqs.map(r=>({ label:r.label, mark:r.ok?'\u2713':'', bg:r.ok?'#4abdac':'#e4e6e4', color:r.ok?'#1f2a28':'#9aa3a1' }));
+    const examAll = okCount===reqs.length;
+    Object.assign(base, {
+      showExamPeekRow: peekEnabled, examPeekLabel: st.examPeek?'Hide the sample':'Peek at a full sample',
+      showExamPeek: st.examPeek, examExampleEl: this.htmlEl(this.mdToHtml(EXAM.example), { fontSize:'13px' }),
+      examPreviewEl: this.htmlEl(st.examText.trim()?this.mdToHtml(st.examText):'<div style="color:#b7c2c0;font-style:italic;font-size:13px;">Your post renders here…</div>', { fontSize:'13.5px' }),
+      examChecks, examCount: okCount+' / '+reqs.length,
+      examStatus: examAll ? 'Every box ticked. Go graduate!' : (okCount===0?'Start typing — watch the checklist come alive.':'So close — '+(reqs.length-okCount)+' to go.'),
+      examStatusColor: examAll ? '#1f8a5b' : '#9aa3a1',
+      examBtnLabel: examAll ? 'Submit exam →' : 'Tick every box first',
+      examBtnBg: examAll ? '#fc4a1a' : '#d6b7ac', examCursor: examAll ? 'pointer':'not-allowed',
+      submitExam:this.submitExam,
+    });
+
+    if (idx >= EXAM_IDX) {
+      Object.assign(base, {
+        moduleLabel:'', title:'', blurbEl:null, tipEl:null, taskEl:null, text:'', onChange:this.onChange,
+        previewEl:null, showPeekRow:false, peekLabel:'', showPeek:false, togglePeek:this.togglePeek, exampleEl:null,
+        taskDone:false, notTaskDone:false, showStatus:false, statusMsg:'', statusColor:'#9aa3a1', lessonXp:0, doneNote:'',
+        check:this.check, bonusXp:0, bonusDone:false, bonusNotDone:false, bonusOpen:false, bonusChevron:'+',
+        toggleBonus:this.toggleBonus, bonusTaskEl:null, bonusText:'', onBonusChange:this.onBonusChange,
+        bonusPreviewEl:null, bonusStatusColor:'#9aa3a1', bonusStatusMsg:'', checkBonus:this.checkBonus,
+        quizQuestion:'', quizOptions:[], showQuizFeedback:false, quizFeedback:'', quizFeedbackColor:'#9aa3a1',
+        lessonDone:false, lessonDoneNote:'', nextLabel:'',
+      });
+      return base;
+    }
+
+    // LESSON view
+    const l = this.cur();
+    const p = this.progOf(idx);
+    const taskDone = !!p.task;
+    const hasText = (st.text||'').trim().length>0;
+    const previewHtml = hasText ? this.mdToHtml(st.text) : '<div style="color:#b7c2c0;font-style:italic;font-size:14px;">Your rendered markdown appears here…</div>';
+
+    const picked = st.quizPick;
+    const quizDone = !!p.quiz;
+    const quizOptions = l.quiz.options.map((opt,i)=>{
+      const isAns = i===l.quiz.answer;
+      const correctPicked = quizDone && isAns;
+      const wrongPicked = picked===i && !isAns && !quizDone;
+      let border='#e4e6e4', bg='#fff', dotBorder='#c8cecb', dotBg='transparent', mark='';
+      if (correctPicked) { border='#4abdac'; bg='#e9f7f3'; dotBorder='#4abdac'; dotBg='#4abdac'; mark='\u2713'; }
+      else if (wrongPicked) { border='#fc4a1a'; bg='#ffeee8'; dotBorder='#fc4a1a'; dotBg='#fc4a1a'; mark='\u2715'; }
+      return { label:opt, border, bg, dotBorder, dotBg, mark, cursor:quizDone?'default':'pointer', pick:()=>this.pickQuiz(i) };
+    });
+    const showQuizFeedback = quizDone || (picked!=null);
+    const quizFeedback = quizDone ? ('Correct! '+l.quiz.why) : (picked!=null ? 'Not quite — give it another go.' : '');
+
+    Object.assign(base, {
+      moduleLabel:'// lesson_'+String(idx+1).padStart(2,'0'),
+      title:l.t,
+      blurbEl: this.htmlEl(l.blurb, { margin:'12px 0 0', fontSize:'16px', lineHeight:1.5, opacity:0.78 }),
+      tipEl: this.htmlEl(this.instr(l.tip)),
+      taskEl: this.htmlEl(this.instr(l.task)),
+      text:st.text, onChange:this.onChange,
+      previewEl: this.htmlEl(previewHtml, { fontFamily:"'Spectral',Georgia,serif", fontSize:'15px', flex:1, overflow:'auto' }),
+      showPeekRow: peekEnabled, peekLabel: st.peek?'Hide the example':'Peek at an example',
+      showPeek: st.peek, togglePeek:this.togglePeek,
+      exampleEl: this.htmlEl(this.mdToHtml(l.example), { fontSize:'14px' }),
+      taskDone, notTaskDone:!taskDone,
+      showStatus: !taskDone, statusColor: st.status==='wrong'?'#fc4a1a':'#9aa3a1',
+      statusMsg: st.status==='wrong' ? (witty?'Not quite — peek at the example or check the preview. 🙂':'That doesn\u2019t match yet. Try again.') : (witty?'Type on the left, watch the preview, then Check it.':'Edit on the left, then press Check it.'),
+      lessonXp:l.xp, doneNote: witty?l.msg:'Task complete.',
+      check:this.check,
+      bonusXp:l.bonusXp, bonusDone:!!p.bonus, bonusNotDone:!p.bonus,
+      bonusOpen:st.bonusOpen, bonusChevron: st.bonusOpen?'\u2715':'+', toggleBonus:this.toggleBonus,
+      bonusTaskEl: this.htmlEl(this.instr(l.bonusTask)),
+      bonusText:st.bonusText, onBonusChange:this.onBonusChange,
+      bonusPreviewEl: this.htmlEl(st.bonusText.trim()?this.mdToHtml(st.bonusText):'<div style="color:#c9b48f;font-style:italic;font-size:12px;">preview…</div>', { fontSize:'13.5px' }),
+      bonusStatusColor: st.bonusStatus==='wrong'?'#fc4a1a':(st.bonusStatus==='done'?'#1f8a5b':'#b58a4a'),
+      bonusStatusMsg: st.bonusStatus==='wrong'?'Not quite — try again!':(st.bonusStatus==='done'?'Bonus claimed!':'Optional — skip it or give it a shot.'),
+      checkBonus:this.checkBonus,
+      quizQuestion:l.quiz.q, quizOptions, showQuizFeedback, quizFeedback,
+      quizFeedbackColor: quizDone?'#1f8a5b':'#fc4a1a',
+      lessonDone: taskDone && quizDone,
+      lessonDoneNote: idx>=LAST_LESSON ? 'Lesson complete — the final exam awaits!' : 'Lesson complete. Onward!',
+      nextLabel: idx>=LAST_LESSON ? 'To the exam →' : 'Next lesson →',
+    });
+    return base;
+  }
+}
+</script>
+</body>
+</html>

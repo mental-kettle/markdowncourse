@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; }
+  * { box-sizing:border-box; }
+  .card { transition:transform .15s ease, box-shadow .15s ease; }
+  .card:hover { transform:translateY(-3px); box-shadow:0 16px 40px rgba(31,42,40,0.12); }
+</style>
+</helmet>
+<div style="min-height:100vh; background:#eef0ef; font-family:'Spectral',Georgia,serif; color:#1f2a28; display:flex; flex-direction:column;">
+
+  <header style="display:flex; align-items:center; justify-content:space-between; padding:13px 28px; background:#ffffff; border-bottom:1px solid #e4e6e4; position:sticky; top:0; z-index:10;">
+    <a href="index.html" style="display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit;">
+      <div style="width:28px; height:28px; border-radius:8px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px;">#</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:21px; white-space:nowrap;">Markdown 101</div>
+    </a>
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fff; background:#fc4a1a; text-decoration:none; padding:8px 16px; border-radius:20px; white-space:nowrap;">← Back to lessons</a>
+  </header>
+
+  <main style="flex:1; max-width:920px; width:100%; margin:0 auto; padding:54px 28px 20px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#4abdac; font-weight:600;">The Reading Room</div>
+    <h1 style="font-family:'DM Serif Display',serif; font-size:54px; line-height:1.03; margin:10px 0 0; letter-spacing:-0.01em;">Beyond the lessons</h1>
+    <p style="font-size:18px; line-height:1.6; color:#4a5754; margin:18px 0 0; max-width:62ch;">Short, fact-checked reads about the little language you just learned — where it came from, why it refuses to die, who leans on it every day, and how to keep up as it quietly takes over the writing world.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:38px;">
+
+      <a class="card" href="why-markdown.html" style="text-decoration:none; color:inherit; background:#fff; border:1px solid #e4e6e4; border-radius:18px; padding:26px; display:block;">
+        <div style="display:flex; align-items:center; justify-content:center; width:50px; height:50px; border-radius:13px; background:#e7f4f1; font-size:24px;">✺</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#4abdac; font-weight:600; margin-top:18px;">Read · 4 min</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:26px; margin-top:5px; line-height:1.1;">Why it's still worth learning</div>
+        <p style="font-size:14.5px; line-height:1.55; color:#6b746f; margin:9px 0 0;">Plain text outlived a hundred fancier formats. Here's the case for a syntax you can learn in an afternoon and use for the rest of your career.</p>
+        <div style="margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fc4a1a; font-weight:600;">Read this →</div>
+      </a>
+
+      <a class="card" href="who-uses-markdown.html" style="text-decoration:none; color:inherit; background:#fff; border:1px solid #e4e6e4; border-radius:18px; padding:26px; display:block;">
+        <div style="display:flex; align-items:center; justify-content:center; width:50px; height:50px; border-radius:13px; background:#fff4ee; font-size:24px;">⌘</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#fc4a1a; font-weight:600; margin-top:18px;">Read · 5 min</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:26px; margin-top:5px; line-height:1.1;">Who uses it (and who doesn't)</div>
+        <p style="font-size:14.5px; line-height:1.55; color:#6b746f; margin:9px 0 0;">From 180-million developers to novelists and note-takers — plus an honest look at the jobs Markdown is the wrong tool for.</p>
+        <div style="margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fc4a1a; font-weight:600;">Read this →</div>
+      </a>
+
+      <a class="card" href="whats-new.html" style="text-decoration:none; color:inherit; background:#fff; border:1px solid #e4e6e4; border-radius:18px; padding:26px; display:block;">
+        <div style="display:flex; align-items:center; justify-content:center; width:50px; height:50px; border-radius:13px; background:#fffaf2; font-size:24px;">⟳</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#d98a2b; font-weight:600; margin-top:18px;">Read · 5 min</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:26px; margin-top:5px; line-height:1.1;">What's new &amp; staying current</div>
+        <p style="font-size:14.5px; line-height:1.55; color:#6b746f; margin:9px 0 0;">CommonMark, GitHub Flavored Markdown, flavors and specs — what actually changes, and the handful of sources worth bookmarking.</p>
+        <div style="margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fc4a1a; font-weight:600;">Read this →</div>
+      </a>
+
+      <a class="card" href="history.html" style="text-decoration:none; color:inherit; background:#1f2a28; color:#f1faf8; border:1px solid #1f2a28; border-radius:18px; padding:26px; display:block;">
+        <div style="display:flex; align-items:center; justify-content:center; width:50px; height:50px; border-radius:13px; background:rgba(74,189,172,0.18); font-size:24px;">✦</div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#7fd9c9; font-weight:600; margin-top:18px;">Read · 4 min</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:26px; margin-top:5px; line-height:1.1;">History &amp; fun facts</div>
+        <p style="font-size:14.5px; line-height:1.55; color:#a9c4bf; margin:9px 0 0;">The origin story: a tired blogger, a teenage prodigy, and a syntax born from the way people already typed in email.</p>
+        <div style="margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fc4a1a; font-weight:600;">Read this →</div>
+      </a>
+
+    </div>
+
+    <div style="margin-top:30px; background:#fff; border:1px solid #e4e6e4; border-radius:16px; padding:22px 24px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px;">
+      <div>
+        <div style="font-family:'DM Serif Display',serif; font-size:21px;">Ready to actually write some?</div>
+        <div style="font-size:14.5px; color:#6b746f; margin-top:3px;">The lessons are where it sticks. Twelve short ones, then a final exam.</div>
+      </div>
+      <a href="index.html" style="font-family:'Spectral',serif; font-weight:600; font-size:15px; color:#fff; background:#4abdac; text-decoration:none; padding:12px 26px; border-radius:24px; white-space:nowrap;">Start learning →</a>
+    </div>
+  </main>
+
+  <footer style="border-top:1px solid #e4e6e4; background:#ffffff; padding:26px 0;">
+    <div style="max-width:920px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:0 28px; box-sizing:border-box;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#9aa3a1;">© 2026 Markdown Course · Interactive Markdown Learning Tool</div>
+      <nav style="display:flex; flex-wrap:wrap; gap:16px; font-family:'IBM Plex Mono',monospace; font-size:12px;">
+        <a href="index.html" style="color:#7f8a88; text-decoration:none;">Home</a>
+        <a href="reading-room.html" style="color:#7f8a88; text-decoration:none;">Reading Room</a>
+        <a href="about.html" style="color:#7f8a88; text-decoration:none;">About</a>
+        <a href="contact.html" style="color:#7f8a88; text-decoration:none;">Contact</a>
+        <a href="privacy.html" style="color:#7f8a88; text-decoration:none;">Privacy</a>
+        <a href="terms.html" style="color:#7f8a88; text-decoration:none;">Terms</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>

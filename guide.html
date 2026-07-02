@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; }
+  * { box-sizing:border-box; }
+</style>
+</helmet>
+<div style="min-height:100vh; background:#eef0ef; font-family:'Spectral',Georgia,serif; color:#1f2a28;">
+
+  <!-- HEADER -->
+  <header style="display:flex; align-items:center; justify-content:space-between; padding:13px 28px; background:#ffffff; border-bottom:1px solid #e4e6e4; position:sticky; top:0; z-index:10;">
+    <div style="display:flex; align-items:center; gap:11px;">
+      <div style="width:28px; height:28px; border-radius:8px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px;">#</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:21px; white-space:nowrap;">Markdown 101</div>
+    </div>
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fff; background:#fc4a1a; text-decoration:none; padding:8px 16px; border-radius:20px; white-space:nowrap;">← Back to lessons</a>
+  </header>
+
+  <!-- HERO -->
+  <div style="max-width:780px; margin:0 auto; padding:54px 28px 8px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#4abdac; font-weight:600;">First time here?</div>
+    <h1 style="font-family:'DM Serif Display',serif; font-size:52px; line-height:1.03; margin:10px 0 0; letter-spacing:-0.01em;">How this course works</h1>
+    <p style="font-size:18px; line-height:1.6; color:#4a5754; margin:18px 0 0; max-width:60ch;">A 60-second tour of every part of the tool — the path, a lesson, the bonus rounds, quizzes, the exam, and your certificate. No prior experience needed.</p>
+  </div>
+
+  <!-- BIG IDEA -->
+  <div style="max-width:780px; margin:0 auto; padding:34px 28px 0;">
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:18px;"><div style="font-family:'DM Serif Display',serif; font-size:26px; color:#fc4a1a;">1</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:6px;">Learn a little</div><p style="font-size:14px; color:#6b746f; line-height:1.5; margin:5px 0 0;">Each lesson explains one idea in plain language, with a tip for the common gotcha.</p></div>
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:18px;"><div style="font-family:'DM Serif Display',serif; font-size:26px; color:#fc4a1a;">2</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:6px;">Try it yourself</div><p style="font-size:14px; color:#6b746f; line-height:1.5; margin:5px 0 0;">Type real markdown, watch the live preview, then check your answer for XP.</p></div>
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:18px;"><div style="font-family:'DM Serif Display',serif; font-size:26px; color:#fc4a1a;">3</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:6px;">Unlock the next</div><p style="font-size:14px; color:#6b746f; line-height:1.5; margin:5px 0 0;">Finish a lesson to open the next one. Ten in total, then the final exam.</p></div>
+    </div>
+  </div>
+
+  <!-- CASE NOTE -->
+  <div style="max-width:780px; margin:0 auto; padding:22px 28px 0;">
+    <div style="display:flex; gap:13px; align-items:flex-start; background:#fff4ee; border:1px solid #ffd9c9; border-radius:14px; padding:16px 18px;">
+      <div style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:20px; color:#fc4a1a; line-height:1;">Aa</div>
+      <div><div style="font-family:'DM Serif Display',serif; font-size:19px;">Capitalization counts</div><p style="font-size:15px; line-height:1.55; color:#4a5754; margin:4px 0 0;">When a task asks for <code style="font-family:'JetBrains Mono',monospace;background:#ffe3da;color:#fc4a1a;padding:1px 6px;border-radius:5px;">Snacks</code>, type it with the capital S. The checker treats uppercase and lowercase as <strong>different</strong> — <code style="font-family:'JetBrains Mono',monospace;background:#ffe3da;color:#fc4a1a;padding:1px 6px;border-radius:5px;">snacks</code> and <code style="font-family:'JetBrains Mono',monospace;background:#ffe3da;color:#fc4a1a;padding:1px 6px;border-radius:5px;">Snacks</code> are not the same. Match the words exactly as written.</p></div>
+    </div>
+  </div>
+
+  <!-- ANATOMY OF A LESSON -->
+  <div style="max-width:780px; margin:0 auto; padding:50px 28px 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#4abdac; font-weight:600; margin-bottom:6px;">The map</div>
+    <h2 style="font-family:'DM Serif Display',serif; font-size:32px; margin:0 0 20px;">Anatomy of a lesson</h2>
+
+    <div style="display:grid; grid-template-columns:1fr 300px; gap:26px; align-items:start;">
+
+      <!-- mock lesson card -->
+      <div style="background:#ffffff; border-radius:18px; box-shadow:0 10px 30px rgba(31,42,40,0.08); overflow:hidden; border:1px solid #ececec;">
+        <div style="height:6px; background:linear-gradient(90deg,#4abdac 0 40%,#f7b733 40% 70%,#fc4a1a 70% 100%);"></div>
+        <div style="padding:18px 20px 0; position:relative;">
+          <span style="position:absolute; left:-11px; top:18px; width:24px; height:24px; border-radius:50%; background:#fc4a1a; color:#fff; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;">1</span>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#4abdac; font-weight:600;">// lesson_03</div>
+          <div style="font-family:'DM Serif Display',serif; font-size:30px; line-height:1; margin-top:4px;">Lists</div>
+          <p style="margin:8px 0 0; font-size:13.5px; line-height:1.5; color:#4a5754;">Begin a line with a dash for a bullet…</p>
+        </div>
+        <div style="margin:14px 20px 0; display:flex; gap:9px; align-items:flex-start; padding:10px 13px; background:#fffaf2; border:1px solid #ffe6c7; border-radius:11px; position:relative;">
+          <span style="position:absolute; left:-11px; top:11px; width:24px; height:24px; border-radius:50%; background:#f7b733; color:#5a4300; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;">2</span>
+          <img src="assets/bulb.png" alt="" style="width:16px; height:16px; object-fit:contain;"><div style="font-size:12.5px; color:#8a6a32; line-height:1.45;">Each bullet needs a dash <em>and</em> a space.</div>
+        </div>
+        <div style="margin:12px 20px 0; padding:12px 14px; border:1.5px dashed #b7e3dc; border-radius:12px; background:#f1faf8; position:relative;">
+          <span style="position:absolute; left:-11px; top:12px; width:24px; height:24px; border-radius:50%; background:#fc4a1a; color:#fff; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;">3</span>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#fc4a1a; font-weight:600;">✎ Your turn</div>
+          <div style="font-size:13px; color:#1f2a28; margin-top:3px;">Make a bullet list of three items…</div>
+        </div>
+        <div style="margin:12px 20px 0; display:grid; grid-template-columns:1fr 1fr; gap:10px; position:relative;">
+          <span style="position:absolute; left:-11px; top:24px; width:24px; height:24px; border-radius:50%; background:#4abdac; color:#fff; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; z-index:1;">4</span>
+          <div style="border:1px solid #e4e6e4; border-radius:10px; overflow:hidden;"><div style="display:flex; gap:5px; padding:7px 10px; background:#e7f4f1;"><span style="width:7px;height:7px;border-radius:50%;background:#b7c2c0;"></span><span style="width:7px;height:7px;border-radius:50%;background:#b7c2c0;"></span><span style="width:7px;height:7px;border-radius:50%;background:#b7c2c0;"></span></div><div style="padding:9px 11px; font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.7; color:#1f2a28;"><span style="color:#fc4a1a;">- </span>Apples<br><span style="color:#fc4a1a;">- </span>Pears</div></div>
+          <div style="border:1px solid #e4e6e4; border-radius:10px; background:#fbfbfa; padding:9px 12px;"><div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-bottom:6px;">preview</div><ul style="margin:0; padding-left:1.2em; font-size:13px;"><li>Apples</li><li>Pears</li></ul></div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; padding:14px 20px 18px; position:relative;">
+          <span style="position:absolute; left:9px; top:16px; width:24px; height:24px; border-radius:50%; background:#fc4a1a; color:#fff; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;">5</span>
+          <div style="font-family:'Spectral',serif; font-weight:600; font-size:13px; color:#fff; background:#fc4a1a; padding:9px 20px; border-radius:20px;">Check it →</div>
+        </div>
+      </div>
+
+      <!-- legend -->
+      <div style="display:flex; flex-direction:column; gap:13px; padding-top:6px;">
+        <div style="display:flex; gap:11px; align-items:flex-start;"><span style="width:24px; height:24px; flex-shrink:0; border-radius:50%; background:#fc4a1a; color:#fff; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;">1</span><div><div style="font-weight:600; font-size:15px;">Title &amp; explanation</div><div style="font-size:13.5px; color:#6b746f; line-height:1.45;">What you're learning, in plain words.</div></div></div>
+        <div style="display:flex; gap:11px; align-items:flex-start;"><span style="width:24px; height:24px; flex-shrink:0; border-radius:50%; background:#f7b733; color:#5a4300; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;">2</span><div><div style="font-weight:600; font-size:15px;">The tip</div><div style="font-size:13.5px; color:#6b746f; line-height:1.45;">The one mistake beginners make — avoided.</div></div></div>
+        <div style="display:flex; gap:11px; align-items:flex-start;"><span style="width:24px; height:24px; flex-shrink:0; border-radius:50%; background:#fc4a1a; color:#fff; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;">3</span><div><div style="font-weight:600; font-size:15px;">Your turn</div><div style="font-size:13.5px; color:#6b746f; line-height:1.45;">The task. Remember: capitalization counts.</div></div></div>
+        <div style="display:flex; gap:11px; align-items:flex-start;"><span style="width:24px; height:24px; flex-shrink:0; border-radius:50%; background:#4abdac; color:#fff; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;">4</span><div><div style="font-weight:600; font-size:15px;">Editor &amp; preview</div><div style="font-size:13.5px; color:#6b746f; line-height:1.45;">Type on the left, see the result on the right — live.</div></div></div>
+        <div style="display:flex; gap:11px; align-items:flex-start;"><span style="width:24px; height:24px; flex-shrink:0; border-radius:50%; background:#fc4a1a; color:#fff; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;">5</span><div><div style="font-weight:600; font-size:15px;">Check it</div><div style="font-size:13.5px; color:#6b746f; line-height:1.45;">Press to grade your answer and earn XP.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUCK? PEEK -->
+  <div style="max-width:780px; margin:0 auto; padding:46px 28px 0;">
+    <div style="display:grid; grid-template-columns:300px 1fr; gap:26px; align-items:center;">
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px 18px;">
+        <div style="display:inline-flex; align-items:center; gap:7px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#4abdac; font-weight:600;"><img src="assets/magnifier.png" alt="" style="width:16px; height:16px; object-fit:contain;">Peek at an example</div>
+        <div style="margin-top:10px; border:1px solid #ffe0c2; background:#fff7ef; border-radius:10px; padding:10px 12px; font-family:'JetBrains Mono',monospace; font-size:12px; color:#1f2a28; line-height:1.7;"><span style="color:#fc4a1a;">- </span>Milk<br><span style="color:#fc4a1a;">- </span>Eggs</div>
+      </div>
+      <div>
+        <h2 style="font-family:'DM Serif Display',serif; font-size:28px; margin:0 0 6px;">Stuck? Take a peek 🔎</h2>
+        <p style="font-size:16px; line-height:1.6; color:#4a5754; margin:0;">Every lesson has a <strong>Peek at an example</strong> button. It shows the same idea using <em>different words</em>, so you learn the pattern without just copying the answer. Use it as often as you like — no penalty.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BONUS + QUIZ -->
+  <div style="max-width:780px; margin:0 auto; padding:46px 28px 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#4abdac; font-weight:600; margin-bottom:6px;">After you pass the task</div>
+    <h2 style="font-family:'DM Serif Display',serif; font-size:32px; margin:0 0 20px;">Bonus round &amp; quick check</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div style="background:#fffaf2; border:1px solid #ffe0c2; border-radius:16px; padding:18px 20px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;"><span style="font-size:17px;">⭐</span><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#d98a2b; font-weight:600;">Bonus round</div></div>
+        <p style="font-size:15px; line-height:1.55; color:#4a5754; margin:0;"><strong>Totally optional.</strong> Want a challenge and extra XP? Open the bonus, solve a slightly trickier version, and claim your reward. Skip it anytime — it never blocks your progress.</p>
+      </div>
+      <div style="background:#fbfdfc; border:1px solid #d7eee9; border-radius:16px; padding:18px 20px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;"><span style="font-size:17px;">🧠</span><div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#4abdac; font-weight:600;">Quick check</div></div>
+        <p style="font-size:15px; line-height:1.55; color:#4a5754; margin:0;">A one-question quiz to lock in what you learned. Answer it correctly to <strong>finish the lesson</strong>, earn a badge, and unlock the next step. Pick the wrong one? Just try again.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- XP / STREAK / LEVELS -->
+  <div style="max-width:780px; margin:0 auto; padding:46px 28px 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#4abdac; font-weight:600; margin-bottom:6px;">Up in the header</div>
+    <h2 style="font-family:'DM Serif Display',serif; font-size:32px; margin:0 0 18px;">Your score, at a glance</h2>
+    <div style="display:flex; flex-wrap:wrap; gap:12px;">
+      <div style="flex:1; min-width:160px; background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px 18px;"><div style="display:flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#e6a200; font-weight:700;"><span style="width:9px; height:9px; border-radius:50%; background:#f7b733;"></span>7 streak</div><p style="font-size:13.5px; color:#6b746f; line-height:1.5; margin:8px 0 0;">How many tasks you've nailed in a row. Keep it alive!</p></div>
+      <div style="flex:1; min-width:160px; background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px 18px;"><div style="font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; color:#5a4300;"><span style="color:#e6a200;">320</span> XP</div><p style="font-size:13.5px; color:#6b746f; line-height:1.5; margin:8px 0 0;">Points from tasks, bonuses, and quizzes. They only go up.</p></div>
+      <div style="flex:1; min-width:160px; background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px 18px;"><div style="display:flex; align-items:center; gap:8px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:#fff; background:#4abdac; padding:3px 10px; border-radius:20px;">Lv 4</span><div style="flex:1; height:7px; background:#e4e6e4; border-radius:5px; overflow:hidden;"><div style="height:100%; width:60%; background:#4abdac; border-radius:5px;"></div></div></div><p style="font-size:13.5px; color:#6b746f; line-height:1.5; margin:8px 0 0;">Every 100 XP bumps your level. The bar shows your way there.</p></div>
+    </div>
+    <p style="font-size:14px; color:#9aa3a1; margin:14px 0 0; font-family:'IBM Plex Mono',monospace;">Tip: the 🔊 icon mutes or unmutes the sound effects. Your progress saves automatically.</p>
+  </div>
+
+  <!-- EXAM + CERT -->
+  <div style="max-width:780px; margin:0 auto; padding:46px 28px 0;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div style="background:#1f2a28; border-radius:18px; padding:24px; color:#f1faf8;">
+        <div style="font-size:30px;">🏆</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:24px; margin-top:8px;">The final exam</div>
+        <p style="font-size:14.5px; color:#a9c4bf; line-height:1.55; margin:8px 0 0;">After all ten lessons, write one short post that uses <strong>every</strong> trick. A checklist lights up green as you go — turn it all green and graduate (with confetti).</p>
+      </div>
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:18px; padding:24px;">
+        <div style="font-size:30px;">🎓</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:24px; margin-top:8px;">Your certificate</div>
+        <p style="font-size:14.5px; color:#6b746f; line-height:1.55; margin:8px 0 0;">Pass the exam, add your name, and open a printable certificate. Save it as a PDF to share or print for the fridge.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="max-width:780px; margin:0 auto; padding:44px 28px 40px; text-align:center;">
+    <a href="index.html" style="display:inline-block; font-family:'Spectral',serif; font-weight:600; font-size:16px; color:#fff; background:#fc4a1a; text-decoration:none; padding:14px 34px; border-radius:28px; box-shadow:0 8px 18px rgba(252,74,26,0.26);">Got it — let's start →</a>
+  </div>
+
+  <footer style="border-top:1px solid #e4e6e4; background:#ffffff; padding:26px 0;">
+    <div style="max-width:780px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:0 28px; box-sizing:border-box;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#9aa3a1;">© 2026 Markdown Course · Interactive Markdown Learning Tool</div>
+      <nav style="display:flex; flex-wrap:wrap; gap:16px; font-family:'IBM Plex Mono',monospace; font-size:12px;">
+        <a href="index.html" style="color:#7f8a88; text-decoration:none;">Home</a>
+        <a href="reading-room.html" style="color:#7f8a88; text-decoration:none;">Reading Room</a>
+        <a href="about.html" style="color:#7f8a88; text-decoration:none;">About</a>
+        <a href="contact.html" style="color:#7f8a88; text-decoration:none;">Contact</a>
+        <a href="privacy.html" style="color:#7f8a88; text-decoration:none;">Privacy</a>
+        <a href="terms.html" style="color:#7f8a88; text-decoration:none;">Terms</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>

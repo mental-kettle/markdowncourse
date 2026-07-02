@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; }
+  * { box-sizing:border-box; }
+</style>
+</helmet>
+<div style="min-height:100vh; background:#eef0ef; font-family:'Spectral',Georgia,serif; color:#1f2a28;">
+
+  <!-- HEADER -->
+  <header style="display:flex; align-items:center; justify-content:space-between; padding:13px 28px; background:#ffffff; border-bottom:1px solid #e4e6e4; position:sticky; top:0; z-index:10;">
+    <div style="display:flex; align-items:center; gap:11px;">
+      <div style="width:28px; height:28px; border-radius:8px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px;">#</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:21px; white-space:nowrap;">Markdown 101</div>
+    </div>
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fff; background:#fc4a1a; text-decoration:none; padding:8px 16px; border-radius:20px; white-space:nowrap;">← Back to lessons</a>
+  </header>
+
+  <!-- HERO -->
+  <div style="max-width:760px; margin:0 auto; padding:56px 28px 10px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#4abdac; font-weight:600;">The backstory</div>
+    <h1 style="font-family:'DM Serif Display',serif; font-size:54px; line-height:1.02; margin:10px 0 0; letter-spacing:-0.01em;">Where Markdown<br>came from</h1>
+    <p style="font-size:18px; line-height:1.6; color:#4a5754; margin:20px 0 0; max-width:60ch;">A tiny language built on one big idea: writing for the web should be as easy as jotting a note. Here's the story, plus a pile of facts to drop at your next dinner party.</p>
+  </div>
+
+  <!-- TIMELINE -->
+  <div style="max-width:760px; margin:0 auto; padding:40px 28px 0;">
+    <div style="display:flex; flex-direction:column; gap:0;">
+
+      <div style="display:grid; grid-template-columns:92px 1fr; gap:22px; padding:22px 0; border-top:1px solid #dfe1df;">
+        <div style="font-family:'DM Serif Display',serif; font-size:30px; color:#fc4a1a;">2004</div>
+        <div>
+          <div style="font-family:'DM Serif Display',serif; font-size:22px; margin-bottom:6px;">A writer and a hacker walk into a text file</div>
+          <p style="font-size:16px; line-height:1.6; color:#4a5754; margin:0;">Writer <strong>John Gruber</strong> created Markdown with technical help from the late <strong>Aaron Swartz</strong>. The goal: a plain-text format so readable you'd be happy to publish the raw text as-is — no angle brackets in sight.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:92px 1fr; gap:22px; padding:22px 0; border-top:1px solid #dfe1df;">
+        <div style="font-family:'DM Serif Display',serif; font-size:30px; color:#fc4a1a;">The idea</div>
+        <div>
+          <div style="font-family:'DM Serif Display',serif; font-size:22px; margin-bottom:6px;">Punctuation people already used</div>
+          <p style="font-size:16px; line-height:1.6; color:#4a5754; margin:0;">Gruber looked at how people <em>already</em> formatted plain-text emails — asterisks for emphasis, dashes for bullets, &gt; for quoted replies — and turned those habits into a language. That's why Markdown feels obvious: you've been writing it for years without knowing.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:92px 1fr; gap:22px; padding:22px 0; border-top:1px solid #dfe1df;">
+        <div style="font-family:'DM Serif Display',serif; font-size:30px; color:#fc4a1a;">2014</div>
+        <div>
+          <div style="font-family:'DM Serif Display',serif; font-size:22px; margin-bottom:6px;">CommonMark brings order</div>
+          <p style="font-size:16px; line-height:1.6; color:#4a5754; margin:0;">The original spec left room for interpretation, so different sites rendered the same text differently. <strong>CommonMark</strong> arrived as a precise, shared standard. GitHub, Reddit, Stack Overflow and others built on it — including extras like tables and task lists (often called "GitHub Flavored Markdown").</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:92px 1fr; gap:22px; padding:22px 0; border-top:1px solid #dfe1df; border-bottom:1px solid #dfe1df;">
+        <div style="font-family:'DM Serif Display',serif; font-size:30px; color:#fc4a1a;">Today</div>
+        <div>
+          <div style="font-family:'DM Serif Display',serif; font-size:22px; margin-bottom:6px;">It's quietly everywhere</div>
+          <p style="font-size:16px; line-height:1.6; color:#4a5754; margin:0;">README files, GitHub issues, Reddit comments, Discord and Slack messages, note apps like Obsidian and Notion, documentation sites, and even the chat window you're probably using right now. Learn it once, use it for life.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHERE YOU'LL SEE IT -->
+  <div style="max-width:760px; margin:0 auto; padding:46px 28px 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#4abdac; font-weight:600; margin-bottom:16px;">Where you'll meet it</div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px;"><div style="font-size:22px;">🐙</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:8px;">GitHub</div><div style="font-size:13.5px; color:#6b746f; line-height:1.5; margin-top:3px;">READMEs, issues, pull requests — all Markdown.</div></div>
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px;"><div style="font-size:22px;">💬</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:8px;">Chat apps</div><div style="font-size:13.5px; color:#6b746f; line-height:1.5; margin-top:3px;">Discord, Slack &amp; more use Markdown shortcuts.</div></div>
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px;"><div style="font-size:22px;">📝</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:8px;">Note apps</div><div style="font-size:13.5px; color:#6b746f; line-height:1.5; margin-top:3px;">Obsidian, Notion &amp; co. speak it natively.</div></div>
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px;"><div style="font-size:22px;">🌐</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:8px;">Websites</div><div style="font-size:13.5px; color:#6b746f; line-height:1.5; margin-top:3px;">Static-site tools turn .md files into pages.</div></div>
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px;"><div style="font-size:22px;">👽</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:8px;">Reddit</div><div style="font-size:13.5px; color:#6b746f; line-height:1.5; margin-top:3px;">Every comment box accepts Markdown.</div></div>
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:16px;"><div style="font-size:22px;">🤖</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:8px;">AI chats</div><div style="font-size:13.5px; color:#6b746f; line-height:1.5; margin-top:3px;">Most assistants format replies in Markdown.</div></div>
+    </div>
+  </div>
+
+  <!-- FUN FACTS -->
+  <div style="max-width:760px; margin:0 auto; padding:46px 28px 0;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#fc4a1a; font-weight:600; margin-bottom:16px;">✦ Fun facts to show off</div>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex; gap:13px; background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:15px 17px;"><div style="font-family:'DM Serif Display',serif; font-size:24px; color:#4abdac; line-height:1;">01</div><p style="margin:0; font-size:15.5px; line-height:1.55; color:#3a443f;">The name is a pun. Programmers had "markup" languages like HTML, so Gruber called his easygoing version <strong>Markdown</strong>. The file extension <code style="font-family:'JetBrains Mono',monospace;background:#eef0ef;color:#c2410c;padding:1px 6px;border-radius:5px;">.md</code> stuck.</p></div>
+      <div style="display:flex; gap:13px; background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:15px 17px;"><div style="font-family:'DM Serif Display',serif; font-size:24px; color:#4abdac; line-height:1;">02</div><p style="margin:0; font-size:15.5px; line-height:1.55; color:#3a443f;">The <code style="font-family:'JetBrains Mono',monospace;background:#eef0ef;color:#c2410c;padding:1px 6px;border-radius:5px;">#</code> symbol has at least a dozen names: hash, pound, sharp, number sign, and the famously goofy <strong>octothorpe</strong>.</p></div>
+      <div style="display:flex; gap:13px; background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:15px 17px;"><div style="font-family:'DM Serif Display',serif; font-size:24px; color:#4abdac; line-height:1;">03</div><p style="margin:0; font-size:15.5px; line-height:1.55; color:#3a443f;">Numbered lists don't care about your numbers. Type <code style="font-family:'JetBrains Mono',monospace;background:#eef0ef;color:#c2410c;padding:1px 6px;border-radius:5px;">1. 1. 1.</code> and Markdown still renders 1, 2, 3.</p></div>
+      <div style="display:flex; gap:13px; background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:15px 17px;"><div style="font-family:'DM Serif Display',serif; font-size:24px; color:#4abdac; line-height:1;">04</div><p style="margin:0; font-size:15.5px; line-height:1.55; color:#3a443f;">Markdown's whole philosophy: the <strong>source should be readable as-is</strong>. That's why a raw <code style="font-family:'JetBrains Mono',monospace;background:#eef0ef;color:#c2410c;padding:1px 6px;border-radius:5px;">.md</code> file still makes sense to a human with zero rendering.</p></div>
+      <div style="display:flex; gap:13px; background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:15px 17px;"><div style="font-family:'DM Serif Display',serif; font-size:24px; color:#4abdac; line-height:1;">05</div><p style="margin:0; font-size:15.5px; line-height:1.55; color:#3a443f;">Tables, task lists, and ~~strikethrough~~ weren't in the original — they're <strong>GitHub Flavored Markdown</strong> extensions that became unofficial standards.</p></div>
+      <div style="display:flex; gap:13px; background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:15px 17px;"><div style="font-family:'DM Serif Display',serif; font-size:24px; color:#4abdac; line-height:1;">06</div><p style="margin:0; font-size:15.5px; line-height:1.55; color:#3a443f;">You can usually mix in raw <strong>HTML</strong> when Markdown isn't enough — it quietly passes most tags straight through.</p></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="max-width:760px; margin:0 auto; padding:46px 28px 64px; text-align:center;">
+    <div style="background:#1f2a28; border-radius:20px; padding:38px 30px; color:#f1faf8;">
+      <div style="font-family:'DM Serif Display',serif; font-size:28px;">Enough history — go make some headings.</div>
+      <p style="font-size:15.5px; color:#a9c4bf; margin:10px 0 22px;">Ten bite-sized lessons, a final exam, and a certificate with your name on it.</p>
+      <a href="index.html" style="display:inline-block; font-family:'Spectral',serif; font-weight:600; font-size:15px; color:#fff; background:#fc4a1a; text-decoration:none; padding:13px 30px; border-radius:26px;">Start learning →</a>
+    </div>
+  </div>
+
+  <footer style="border-top:1px solid #e4e6e4; background:#ffffff; padding:26px 0;">
+    <div style="max-width:760px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:0 28px; box-sizing:border-box;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#9aa3a1;">© 2026 Markdown Course · Interactive Markdown Learning Tool</div>
+      <nav style="display:flex; flex-wrap:wrap; gap:16px; font-family:'IBM Plex Mono',monospace; font-size:12px;">
+        <a href="index.html" style="color:#7f8a88; text-decoration:none;">Home</a>
+        <a href="reading-room.html" style="color:#7f8a88; text-decoration:none;">Reading Room</a>
+        <a href="about.html" style="color:#7f8a88; text-decoration:none;">About</a>
+        <a href="contact.html" style="color:#7f8a88; text-decoration:none;">Contact</a>
+        <a href="privacy.html" style="color:#7f8a88; text-decoration:none;">Privacy</a>
+        <a href="terms.html" style="color:#7f8a88; text-decoration:none;">Terms</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; }
+  * { box-sizing:border-box; }
+  a.body-link { color:#fc4a1a; }
+  .doc h2 { font-family:'DM Serif Display',serif; font-size:24px; margin:34px 0 0; }
+  .doc p, .doc li { font-size:15.5px; line-height:1.65; color:#4a5754; }
+  .doc ul { margin:10px 0 0; padding-left:1.3em; }
+  .doc li { margin-bottom:6px; }
+</style>
+</helmet>
+<div style="min-height:100vh; background:#eef0ef; font-family:'Spectral',Georgia,serif; color:#1f2a28; display:flex; flex-direction:column;">
+
+  <header style="display:flex; align-items:center; justify-content:space-between; padding:13px 28px; background:#ffffff; border-bottom:1px solid #e4e6e4; position:sticky; top:0; z-index:10;">
+    <a href="index.html" style="display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit;">
+      <div style="width:28px; height:28px; border-radius:8px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px;">#</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:21px; white-space:nowrap;">Markdown 101</div>
+    </a>
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fff; background:#fc4a1a; text-decoration:none; padding:8px 16px; border-radius:20px; white-space:nowrap;">← Back to lessons</a>
+  </header>
+
+  <main class="doc" style="flex:1; max-width:720px; width:100%; margin:0 auto; padding:54px 28px 20px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#4abdac; font-weight:600;">Legal</div>
+    <h1 style="font-family:'DM Serif Display',serif; font-size:48px; line-height:1.05; margin:10px 0 0;">Terms of Use</h1>
+    <p style="margin:14px 0 0; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#9aa3a1;">Last updated: July 1, 2026</p>
+
+    <div style="margin-top:18px; padding:13px 16px; background:#fff4ee; border:1px solid #ffd9c9; border-radius:12px; font-size:13.5px; color:#8a5a3a; line-height:1.55;">⚠️ This is a starter template with placeholders. Fill in the bracketed details and have it reviewed before publishing.</div>
+
+    <p style="margin-top:18px;">Welcome to <strong>Markdown Course</strong>. These Terms of Use ("Terms") govern your use of <strong>markdowncourse.com</strong> (the "Site"). By accessing or using the Site, you agree to these Terms. If you don't agree, please don't use the Site.</p>
+
+    <h2>Use of the Site</h2>
+    <p>The Site provides free educational content about Markdown. You may use it for personal, non-commercial learning and for teaching others, provided you don't:</p>
+    <ul>
+      <li>copy, resell, or redistribute the Site's content as your own;</li>
+      <li>attempt to disrupt, attack, or reverse-engineer the Site;</li>
+      <li>use the Site in any way that violates applicable laws.</li>
+    </ul>
+
+    <h2>Intellectual property</h2>
+    <p>Unless otherwise noted, the lessons, text, design, and code on the Site are owned by Markdown Course and protected by applicable intellectual-property laws. "Markdown" and other third-party names are the property of their respective owners.</p>
+
+    <h2>Educational content — no guarantee</h2>
+    <p>The Site is for general educational purposes. While we strive for accuracy, Markdown behavior can vary between editors and platforms. We make no guarantee that the content is complete, current, or error-free, and it is provided "as is."</p>
+
+    <h2>Certificates</h2>
+    <p>Certificates issued by the Site recognize completion of this course only. They are not an accredited qualification and carry no formal academic or professional standing.</p>
+
+    <h2>Third-party links and ads</h2>
+    <p>The Site may contain links to third-party websites and may display third-party advertising. We are not responsible for the content, policies, or practices of those third parties. See our <a class="body-link" href="privacy.html">Privacy Policy</a> for how advertising is handled.</p>
+
+    <h2>Limitation of liability</h2>
+    <p>To the fullest extent permitted by law, Markdown Course shall not be liable for any indirect, incidental, or consequential damages arising from your use of the Site.</p>
+
+    <h2>Changes to these Terms</h2>
+    <p>We may update these Terms from time to time. Continued use of the Site after changes are posted means you accept the revised Terms.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about these Terms? Email us at <strong>hi@markdowncourse.com</strong> or visit our <a class="body-link" href="contact.html">contact page</a>.</p>
+  </main>
+
+  <footer style="border-top:1px solid #e4e6e4; background:#ffffff; padding:26px 0;">
+    <div style="max-width:720px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:0 28px; box-sizing:border-box;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#9aa3a1;">© 2026 Markdown Course · Interactive Markdown Learning Tool</div>
+      <nav style="display:flex; flex-wrap:wrap; gap:16px; font-family:'IBM Plex Mono',monospace; font-size:12px;">
+        <a href="index.html" style="color:#7f8a88; text-decoration:none;">Home</a>
+        <a href="reading-room.html" style="color:#7f8a88; text-decoration:none;">Reading Room</a>
+        <a href="about.html" style="color:#7f8a88; text-decoration:none;">About</a>
+        <a href="contact.html" style="color:#7f8a88; text-decoration:none;">Contact</a>
+        <a href="privacy.html" style="color:#7f8a88; text-decoration:none;">Privacy</a>
+        <a href="terms.html" style="color:#7f8a88; text-decoration:none;">Terms</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>
