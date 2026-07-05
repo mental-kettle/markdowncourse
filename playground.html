@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<title>Markdown Playground — Live Editor &amp; Preview | Markdown Course</title>
+<meta name="description" content="A free live Markdown editor with instant preview. Type Markdown, see it render, copy the HTML, switch between Core and GitHub Flavored Markdown, and export .md — right in your browser.">
+<link rel="canonical" href="https://markdowncourse.com/playground">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#4abdac">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Markdown Course">
+<meta property="og:title" content="Markdown Playground — Live Editor &amp; Preview | Markdown Course">
+<meta property="og:description" content="A free live Markdown editor with instant preview. Type Markdown, see it render, copy the HTML, switch between Core and GitHub Flavored Markdown, and export .md — right in your browser.">
+<meta property="og:url" content="https://markdowncourse.com/playground">
+<meta property="og:image" content="https://markdowncourse.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Markdown Playground — Live Editor &amp; Preview | Markdown Course">
+<meta name="twitter:description" content="A free live Markdown editor with instant preview. Type Markdown, see it render, copy the HTML, switch between Core and GitHub Flavored Markdown, and export .md — right in your browser.">
+<meta name="twitter:image" content="https://markdowncourse.com/assets/og.png">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<style>
+  body { margin:0; }
+  * { box-sizing:border-box; }
+  :root{
+    --pg-bg:#eef0ef; --pg-surface:#ffffff; --pg-surface-2:#f4f5f4; --pg-border:#e4e6e4;
+    --pg-fg:#1f2a28; --pg-muted:#6b746f; --pg-faint:#9aa3a1;
+    --pg-editor-bg:#ffffff; --pg-editor-fg:#1f2a28;
+    --pg-code-bg:#eef1f0; --pg-code-fg:#c2410c; --pg-link:#fc4a1a;
+    --pg-quote-border:#4abdac; --pg-table-border:#e4e6e4;
+  }
+  .pg-dark{
+    --pg-bg:#0f1512; --pg-surface:#16201d; --pg-surface-2:#1b2723; --pg-border:#2a3a35;
+    --pg-fg:#eaf1ee; --pg-muted:#9fb0ab; --pg-faint:#6b7d78;
+    --pg-editor-bg:#121a17; --pg-editor-fg:#eaf1ee;
+    --pg-code-bg:#22302b; --pg-code-fg:#ff9d63; --pg-link:#ff7a4d;
+    --pg-quote-border:#4abdac; --pg-table-border:#2a3a35;
+  }
+  [data-hidden="true"]{ display:none !important; }
+
+  .md-body{ color:var(--pg-fg); font-family:'Spectral',Georgia,serif; font-size:16.5px; line-height:1.75; overflow-wrap:break-word; }
+  .md-body > *:first-child{ margin-top:0 !important; }
+  .md-body h1,.md-body h2,.md-body h3,.md-body h4,.md-body h5,.md-body h6{ font-family:'DM Serif Display',Georgia,serif; font-weight:400; line-height:1.15; margin:1.4em 0 .5em; color:var(--pg-fg); }
+  .md-body h1{ font-size:2em; letter-spacing:-.01em; border-bottom:1px solid var(--pg-border); padding-bottom:.2em; }
+  .md-body h2{ font-size:1.55em; border-bottom:1px solid var(--pg-border); padding-bottom:.18em; }
+  .md-body h3{ font-size:1.28em; }
+  .md-body h4{ font-size:1.1em; }
+  .md-body h5{ font-size:.98em; }
+  .md-body h6{ font-size:.9em; color:var(--pg-muted); }
+  .md-body p{ margin:.75em 0; }
+  .md-body a{ color:var(--pg-link); text-decoration:underline; text-underline-offset:2px; }
+  .md-body a:hover{ text-decoration:none; }
+  .md-body strong{ font-weight:700; color:var(--pg-fg); }
+  .md-body em{ font-style:italic; }
+  .md-body del{ opacity:.55; }
+  .md-body ul,.md-body ol{ margin:.75em 0; padding-left:1.6em; }
+  .md-body li{ margin:.3em 0; }
+  .md-body li.task-list-item{ list-style:none; }
+  .md-body li > input[type=checkbox]{ margin:0 .5em 0 -1.35em; transform:translateY(1px); accent-color:#4abdac; }
+  .md-body blockquote{ margin:1em 0; padding:.45em 1.1em; border-left:4px solid var(--pg-quote-border); color:var(--pg-muted); background:var(--pg-surface-2); border-radius:0 8px 8px 0; }
+  .md-body blockquote p{ margin:.4em 0; }
+  .md-body code{ font-family:'JetBrains Mono','IBM Plex Mono',monospace; font-size:.86em; background:var(--pg-code-bg); color:var(--pg-code-fg); padding:.12em .42em; border-radius:5px; }
+  .md-body pre{ margin:1em 0; padding:16px 18px; background:#1b2320; border-radius:12px; overflow:auto; }
+  .md-body pre code{ background:none; color:#eef2f0; padding:0; font-size:.9em; line-height:1.6; }
+  .md-body hr{ border:none; border-top:2px solid var(--pg-border); margin:1.6em 0; }
+  .md-body table{ border-collapse:collapse; margin:1em 0; width:100%; font-size:.95em; }
+  .md-body th,.md-body td{ border:1px solid var(--pg-table-border); padding:8px 12px; text-align:left; }
+  .md-body th{ background:var(--pg-surface-2); font-family:'IBM Plex Mono',monospace; font-size:.82em; text-transform:uppercase; letter-spacing:.04em; }
+  .md-body img{ max-width:100%; border-radius:8px; }
+
+  .pg-src{ margin:0; font-family:'JetBrains Mono','IBM Plex Mono',monospace; font-size:13px; line-height:1.65; color:var(--pg-muted); white-space:pre-wrap; word-break:break-word; }
+
+  .pg-tab[data-active="true"]{ background:#4abdac !important; color:#ffffff !important; border-color:#4abdac !important; }
+  .pg-flav[data-active="true"]{ background:#4abdac !important; color:#ffffff !important; }
+
+  @media (max-width:860px){
+    .pg-split{ flex-direction:column !important; height:auto !important; }
+    .pg-divider{ display:none !important; }
+    .pg-pane{ width:100% !important; flex:none !important; }
+    .pg-editor-pane{ min-height:46vh; border-bottom:1px solid var(--pg-border); }
+    .pg-preview-pane{ min-height:46vh; }
+    .pg-tabs{ display:flex !important; }
+    [data-mv="write"] .pg-preview-pane{ display:none !important; }
+    [data-mv="preview"] .pg-editor-pane{ display:none !important; }
+  }
+</style>
+</helmet>
+<div class="{{ rootClass }}" style="min-height:100vh; display:flex; flex-direction:column; background:var(--pg-bg); color:var(--pg-fg); font-family:'Spectral',Georgia,serif;">
+
+  <!-- HEADER -->
+  <header style="display:flex; align-items:center; justify-content:space-between; padding:13px 28px; background:var(--pg-surface); border-bottom:1px solid var(--pg-border); position:sticky; top:0; z-index:20;">
+    <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+      <a href="index.html" style="display:flex; align-items:center; gap:11px; text-decoration:none; color:var(--pg-fg);">
+        <div style="width:28px; height:28px; border-radius:8px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px;">#</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:21px; white-space:nowrap;">Markdown Course</div>
+      </a>
+      <a href="guide.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--pg-muted); text-decoration:none; padding:5px 10px; border-radius:8px;">？ How it works</a>
+      <a href="reading-room.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--pg-muted); text-decoration:none; padding:5px 10px; border-radius:8px;">✦ Reading Room</a>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#4abdac; font-weight:600; padding:5px 10px; border-radius:8px; background:rgba(74,189,172,0.12);">✎ Playground</span>
+    </div>
+    <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fff; background:#fc4a1a; text-decoration:none; padding:8px 16px; border-radius:20px; white-space:nowrap;">← Back to lessons</a>
+  </header>
+
+  <!-- TOOLBAR -->
+  <div style="max-width:1180px; width:100%; margin:0 auto; padding:24px 24px 14px; display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end; justify-content:space-between;">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#4abdac; font-weight:600;">// playground</div>
+      <h1 style="font-family:'DM Serif Display',serif; font-size:34px; line-height:1.05; margin:6px 0 0; letter-spacing:-0.01em;">The Markdown Playground</h1>
+      <div data-hidden="{{ funnelHidden }}" style="font-size:14px; color:var(--pg-muted); margin-top:6px;">Type on the left, watch it render on the right. New here? <a href="index.html" style="color:var(--pg-link); font-weight:600; text-decoration:none;">Take the course →</a></div>
+    </div>
+    <div class="pg-toolbar-actions" style="display:flex; gap:8px; flex-wrap:wrap;">
+      <div style="display:inline-flex; align-items:center; border:1px solid var(--pg-border); border-radius:9px; overflow:hidden;" title="Markdown flavor — switch to Core to see which features are GitHub extensions">
+        <button class="pg-flav" data-active="{{ coreActive }}" onClick="{{ onFlavorCore }}" style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:var(--pg-fg); background:var(--pg-surface); border:none; padding:8px 13px; cursor:pointer;">Core</button>
+        <button class="pg-flav" data-active="{{ gfmActive }}" onClick="{{ onFlavorGfm }}" style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:var(--pg-fg); background:var(--pg-surface); border:none; border-left:1px solid var(--pg-border); padding:8px 13px; cursor:pointer;">GitHub</button>
+      </div>
+      <button onClick="{{ onCopyHTML }}" style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:var(--pg-fg); background:var(--pg-surface); border:1px solid var(--pg-border); padding:8px 12px; border-radius:9px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#4abdac;">{{ copiedHTML }}</button>
+      <button onClick="{{ onCopyMD }}" style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:var(--pg-fg); background:var(--pg-surface); border:1px solid var(--pg-border); padding:8px 12px; border-radius:9px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#4abdac;">{{ copiedMD }}</button>
+      <button onClick="{{ onDownload }}" style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:var(--pg-fg); background:var(--pg-surface); border:1px solid var(--pg-border); padding:8px 12px; border-radius:9px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#4abdac;">↓ .md</button>
+      <button onClick="{{ onShare }}" style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:var(--pg-fg); background:var(--pg-surface); border:1px solid var(--pg-border); padding:8px 12px; border-radius:9px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#4abdac;">{{ copiedLink }}</button>
+      <button onClick="{{ onToggleDark }}" style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:#fff; background:#212a28; border:1px solid #212a28; padding:8px 12px; border-radius:9px; cursor:pointer; white-space:nowrap;">{{ darkLabel }}</button>
+      <button onClick="{{ onBookmark }}" style="display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:var(--pg-fg); background:var(--pg-surface); border:1px solid var(--pg-border); padding:8px 12px; border-radius:9px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#4abdac;">{{ bookmarkLabel }}</button>
+    </div>
+  </div>
+
+  <!-- MOBILE TABS -->
+  <div class="pg-tabs" style="display:none; max-width:1180px; width:100%; margin:0 auto; padding:0 24px 10px; gap:8px;">
+    <button class="pg-tab" data-active="{{ writeActive }}" onClick="{{ onSetWrite }}" style="flex:1; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:var(--pg-fg); background:var(--pg-surface); border:1px solid var(--pg-border); padding:10px; border-radius:10px; cursor:pointer;">✎ Write</button>
+    <button class="pg-tab" data-active="{{ previewActive }}" onClick="{{ onSetPreview }}" style="flex:1; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:var(--pg-fg); background:var(--pg-surface); border:1px solid var(--pg-border); padding:10px; border-radius:10px; cursor:pointer;">👁 Preview</button>
+  </div>
+
+  <!-- SPLIT WORKSPACE -->
+  <div style="max-width:1180px; width:100%; margin:0 auto; padding:0 24px 8px; flex:1;">
+    <div class="pg-split" id="pg-split" data-mv="{{ mobileView }}" style="display:flex; height:min(72vh,820px); min-height:460px; border:1px solid var(--pg-border); border-radius:16px; overflow:hidden; background:var(--pg-surface); box-shadow:0 12px 40px rgba(31,42,40,0.06);">
+
+      <!-- EDITOR -->
+      <div class="pg-pane pg-editor-pane" id="pg-left" style="width:50%; min-width:0; display:flex; flex-direction:column; background:var(--pg-editor-bg);">
+        <div style="flex:0 0 auto; height:46px; display:flex; align-items:center; justify-content:space-between; padding:0 16px; border-bottom:1px solid var(--pg-border); background:var(--pg-surface-2);">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--pg-faint); font-weight:600;">Markdown</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--pg-faint);">{{ counts }}</span>
+        </div>
+        <textarea id="pg-ta" value="{{ md }}" onChange="{{ onChange }}" onKeyDown="{{ onTaKeyDown }}" spellcheck="false" placeholder="# Type here…&#10;&#10;Write Markdown on the left — it comes alive on the right.&#10;&#10;Try **bold**, *italics*, a `code` snippet,&#10;- a list&#10;- or two&#10;&#10;> Not sure what any of this means? Take the course — link up top." style="flex:1; width:100%; border:none; outline:none; resize:none; padding:20px 22px; font-family:'JetBrains Mono','IBM Plex Mono',monospace; font-size:14.5px; line-height:1.7; color:var(--pg-editor-fg); background:transparent; white-space:pre-wrap; tab-size:2;"></textarea>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="pg-divider" id="pg-divider" onPointerDown="{{ onDividerDown }}" style="flex:0 0 10px; cursor:col-resize; background:var(--pg-border); display:flex; align-items:center; justify-content:center;">
+        <div style="font-family:sans-serif; font-size:14px; line-height:0.5; color:var(--pg-faint); letter-spacing:-1px;">⋮</div>
+      </div>
+
+      <!-- PREVIEW -->
+      <div class="pg-pane pg-preview-pane" style="flex:1; min-width:0; display:flex; flex-direction:column; background:var(--pg-surface);">
+        <div style="flex:0 0 auto; height:46px; display:flex; align-items:center; justify-content:space-between; padding:0 12px 0 16px; border-bottom:1px solid var(--pg-border); background:var(--pg-surface-2);">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--pg-faint); font-weight:600;">{{ previewLabel }}</span>
+          <button onClick="{{ onToggleSource }}" style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500; color:var(--pg-muted); background:transparent; border:1px solid var(--pg-border); padding:5px 10px; border-radius:7px; cursor:pointer;" style-hover="border-color:#4abdac; color:#4abdac;">{{ sourceLabel }}</button>
+        </div>
+        <div id="pg-scroll" style="flex:1; overflow:auto; padding:24px 26px;">
+          <div class="md-body" id="pg-body" data-hidden="{{ bodyHidden }}"></div>
+          <pre class="pg-src" id="pg-src" data-hidden="{{ sourceHidden }}"></pre>
+          <div data-hidden="{{ emptyHidden }}" style="height:100%; min-height:280px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:var(--pg-faint);">
+            <div style="font-family:'DM Serif Display',serif; font-size:22px; color:var(--pg-muted);">Nothing to preview yet</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; margin-top:8px; max-width:34ch; line-height:1.6;">← Start typing on the left and your formatted text shows up right here, live.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--pg-faint); text-align:center; padding:10px 0 4px; max-width:760px; margin:0 auto; line-height:1.6;">{{ workspaceNote }}</div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid var(--pg-border); background:var(--pg-surface); padding:26px 28px; margin-top:12px;">
+    <div style="max-width:1180px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:12px; text-align:center;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--pg-faint);">© 2026 Markdown Course · Interactive Markdown Learning Tool</div>
+      <nav style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; font-family:'IBM Plex Mono',monospace; font-size:12px;">
+        <a href="index.html" style="color:var(--pg-muted); text-decoration:none;">Home</a>
+        <a href="reading-room.html" style="color:var(--pg-muted); text-decoration:none;">Reading Room</a>
+        <a href="playground.html" style="color:#4abdac; text-decoration:none; font-weight:600;">Playground</a>
+        <a href="about.html" style="color:var(--pg-muted); text-decoration:none;">About</a>
+        <a href="contact.html" style="color:var(--pg-muted); text-decoration:none;">Contact</a>
+        <a href="privacy.html" style="color:var(--pg-muted); text-decoration:none;">Privacy</a>
+        <a href="terms.html" style="color:var(--pg-muted); text-decoration:none;">Terms</a>
+        <a href="workbook.html" style="color:var(--pg-muted); text-decoration:none;">The Workbook</a>
+        <a href="https://ko-fi.com/mentalkettle" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:7px; color:var(--pg-fg); text-decoration:none; font-weight:600;"><img src="assets/coffee.png" alt="" style="width:22px; height:18px; object-fit:contain;">Buy me a coffee</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;startInDark&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;syncScroll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;showCoursePrompt&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = {
+      md: '',
+      dark: !!(this.props.startInDark ?? false),
+      showSource: false,
+      mobileView: 'write',
+      flavor: 'gfm',
+      copied: '',
+      ready: false,
+    };
+    this._syncing = false;
+    this._copyTimer = null;
+  }
+
+  $(id){ return document.getElementById(id); }
+
+  componentDidMount(){
+    let dark = this.state.dark;
+    try { const d = localStorage.getItem('mdpg_dark'); if (d !== null) dark = d === '1'; } catch(e){}
+    let flavor = this.state.flavor;
+    try { const fl = localStorage.getItem('mdpg_flavor'); if (fl === 'core' || fl === 'gfm') flavor = fl; } catch(e){}
+    let md = '';
+    try {
+      const h = location.hash || '';
+      const m = h.match(/[#&]md=([^&]+)/);
+      if (m) { md = this.b64decode(decodeURIComponent(m[1])); }
+      else { md = localStorage.getItem('mdpg_md') || ''; }
+    } catch(e){ md = ''; }
+    this.setState({ dark, flavor, md, ready: true }, () => {
+      this.ensureMarked(() => this.updatePreview());
+      this.restoreSplit();
+      this.attachScrollSync();
+    });
+  }
+
+  componentDidUpdate(prevP, prevS){
+    prevS = prevS || {};
+    if (prevS.md !== this.state.md || prevS.showSource !== this.state.showSource || prevS.ready !== this.state.ready){
+      this.updatePreview();
+    }
+  }
+
+  persistAndRender(){
+    try { localStorage.setItem('mdpg_md', this.state.md || ''); } catch(e){}
+    this.updatePreview();
+  }
+
+  componentWillUnmount(){
+    clearTimeout(this._copyTimer);
+    const ta = this.$('pg-ta'), pv = this.$('pg-scroll');
+    if (ta && this._taSync) ta.removeEventListener('scroll', this._taSync);
+    if (pv && this._pvSync) pv.removeEventListener('scroll', this._pvSync);
+  }
+
+  ensureMarked(cb){
+    let tries = 0;
+    const chk = () => {
+      if (window.marked && window.marked.parse){ cb && cb(); }
+      else if (tries++ < 60){ setTimeout(chk, 50); }
+    };
+    chk();
+  }
+
+  b64encode(str){
+    try { const bytes = new TextEncoder().encode(str); let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin); }
+    catch(e){ return ''; }
+  }
+  b64decode(b64){
+    try { const bin = atob(b64); const bytes = Uint8Array.from(bin, c=>c.charCodeAt(0)); return new TextDecoder().decode(bytes); }
+    catch(e){ return ''; }
+  }
+
+  renderHTML(){
+    const md = this.state.md || '';
+    let raw = '';
+    try { raw = window.marked.parse(md, { gfm: this.state.flavor !== 'core', breaks:false }); } catch(e){ raw = ''; }
+    let clean = raw;
+    try { if (window.DOMPurify) clean = window.DOMPurify.sanitize(raw, { ADD_ATTR:['target'] }); } catch(e){}
+    return { raw, clean };
+  }
+
+  updatePreview(){
+    if (!window.marked || !window.marked.parse) return;
+    const { raw, clean } = this.renderHTML();
+    const el = this.$('pg-body'), src = this.$('pg-src');
+    if (el){
+      el.innerHTML = clean;
+      el.querySelectorAll('a[href]').forEach(a => { a.target = '_blank'; a.rel = 'noopener noreferrer'; });
+    }
+    if (src){ src.textContent = raw; }
+  }
+
+  restoreSplit(){
+    try { const w = localStorage.getItem('mdpg_split'); const left = this.$('pg-left'); if (w && left) left.style.width = w; } catch(e){}
+  }
+
+  attachScrollSync(){
+    const ta = this.$('pg-ta'), pv = this.$('pg-scroll');
+    if (!ta || !pv) return;
+    const mk = (from, to) => () => {
+      if (this._syncing) return;
+      if (this.props.syncScroll === false) return;
+      this._syncing = true;
+      const denom = (from.scrollHeight - from.clientHeight) || 1;
+      const ratio = from.scrollTop / denom;
+      to.scrollTop = ratio * ((to.scrollHeight - to.clientHeight) || 0);
+      requestAnimationFrame(() => { this._syncing = false; });
+    };
+    this._taSync = mk(ta, pv);
+    this._pvSync = mk(pv, ta);
+    ta.addEventListener('scroll', this._taSync);
+    pv.addEventListener('scroll', this._pvSync);
+  }
+
+  onDividerDown = (e) => {
+    e.preventDefault();
+    const split = this.$('pg-split'), left = this.$('pg-left');
+    if (!split || !left) return;
+    const rect = split.getBoundingClientRect();
+    const move = (ev) => {
+      const x = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      let pct = ((x - rect.left) / rect.width) * 100;
+      pct = Math.max(22, Math.min(78, pct));
+      left.style.width = pct + '%';
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      try { localStorage.setItem('mdpg_split', left.style.width); } catch(e){}
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  onChange = (e) => { this.setState({ md: e.target.value }, () => this.persistAndRender()); };
+
+  onTaKeyDown = (e) => {
+    if (e.key === 'Tab'){
+      e.preventDefault();
+      const ta = e.target;
+      const s = ta.selectionStart, en = ta.selectionEnd, v = ta.value;
+      const nv = v.slice(0, s) + '  ' + v.slice(en);
+      this.setState({ md: nv }, () => { try { ta.selectionStart = ta.selectionEnd = s + 2; } catch(err){} this.persistAndRender(); });
+    }
+  };
+
+  flash(key){
+    clearTimeout(this._copyTimer);
+    this.setState({ copied: key });
+    this._copyTimer = setTimeout(() => this.setState({ copied: '' }), 1300);
+  }
+
+  doCopy(text, key){
+    const done = () => this.flash(key);
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done).catch(() => { this.fallbackCopy(text); done(); });
+      } else { this.fallbackCopy(text); done(); }
+    } catch(e){ this.fallbackCopy(text); done(); }
+  }
+  fallbackCopy(text){
+    try {
+      const t = document.createElement('textarea');
+      t.value = text; t.style.position='fixed'; t.style.opacity='0';
+      document.body.appendChild(t); t.focus(); t.select();
+      document.execCommand('copy'); document.body.removeChild(t);
+    } catch(e){}
+  }
+
+  onCopyHTML = () => { this.doCopy(this.renderHTML().clean, 'html'); };
+  onCopyMD = () => { this.doCopy(this.state.md || '', 'md'); };
+  onDownload = () => {
+    try {
+      const blob = new Blob([this.state.md || ''], { type:'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'document.md';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+    } catch(e){}
+  };
+  onShare = () => {
+    const url = location.origin + location.pathname + '#md=' + encodeURIComponent(this.b64encode(this.state.md || ''));
+    this.doCopy(url, 'link');
+    try { history.replaceState(null, '', url); } catch(e){}
+  };
+  onToggleDark = () => { this.setState(s => ({ dark: !s.dark }), () => { try { localStorage.setItem('mdpg_dark', this.state.dark ? '1' : '0'); } catch(e){} }); };
+  onToggleSource = () => { this.setState(s => ({ showSource: !s.showSource }), () => this.updatePreview()); };
+  setFlavor(f){ this.setState({ flavor: f }, () => { try { localStorage.setItem('mdpg_flavor', f); } catch(e){} this.updatePreview(); }); }
+  onFlavorCore = () => { this.setFlavor('core'); };
+  onFlavorGfm = () => { this.setFlavor('gfm'); };
+  onBookmark = () => { this.flash('bookmark'); };
+  onSetWrite = () => { this.setState({ mobileView: 'write' }); };
+  onSetPreview = () => { this.setState({ mobileView: 'preview' }); };
+
+  renderVals(){
+    const md = this.state.md || '';
+    const isEmpty = md.trim() === '';
+    const showSource = this.state.showSource;
+    const words = (md.trim().match(/\S+/g) || []).length;
+    const counts = words + (words === 1 ? ' word' : ' words') + ' · ' + md.length + ' chars';
+    return {
+      rootClass: this.state.dark ? 'pg-dark' : 'pg',
+      md,
+      counts,
+      onChange: this.onChange,
+      onTaKeyDown: this.onTaKeyDown,
+      onDividerDown: this.onDividerDown,
+      onCopyHTML: this.onCopyHTML,
+      onCopyMD: this.onCopyMD,
+      onDownload: this.onDownload,
+      onShare: this.onShare,
+      onToggleDark: this.onToggleDark,
+      onToggleSource: this.onToggleSource,
+      onSetWrite: this.onSetWrite,
+      onSetPreview: this.onSetPreview,
+      copiedHTML: this.state.copied === 'html' ? '✓ Copied!' : '⧉ Copy HTML',
+      copiedMD: this.state.copied === 'md' ? '✓ Copied!' : '⧉ Copy Markdown',
+      copiedLink: this.state.copied === 'link' ? '✓ Link copied!' : '⇄ Share link',
+      darkLabel: this.state.dark ? '☀ Light' : '☾ Dark',
+      sourceLabel: showSource ? 'View preview' : 'View HTML source',
+      previewLabel: showSource ? 'HTML source' : 'Preview',
+      mobileView: this.state.mobileView,
+      writeActive: this.state.mobileView === 'write' ? 'true' : 'false',
+      previewActive: this.state.mobileView === 'preview' ? 'true' : 'false',
+      coreActive: this.state.flavor === 'core' ? 'true' : 'false',
+      gfmActive: this.state.flavor !== 'core' ? 'true' : 'false',
+      onFlavorCore: this.onFlavorCore,
+      onFlavorGfm: this.onFlavorGfm,
+      onBookmark: this.onBookmark,
+      bookmarkLabel: this.state.copied === 'bookmark' ? 'Press Ctrl/⌘ + D' : '☆ Bookmark',
+      workspaceNote: this.state.flavor === 'core'
+        ? 'Rendering Core Markdown (the CommonMark baseline) — tables, task lists and ~~strikethrough~~ won\u2019t render here, because those are GitHub extensions. Your text auto-saves in this browser.'
+        : 'Rendering GitHub Flavored Markdown — tables, task lists and strikethrough all work. Tables need a separator row: | --- | --- |. Your text auto-saves in this browser.',
+      funnelHidden: (this.props.showCoursePrompt === false) ? 'true' : 'false',
+      bodyHidden: (!showSource && !isEmpty) ? 'false' : 'true',
+      sourceHidden: showSource ? 'false' : 'true',
+      emptyHidden: (!showSource && isEmpty) ? 'false' : 'true',
+    };
+  }
+}
+</script>
+</body>
+</html>

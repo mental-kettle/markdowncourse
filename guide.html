@@ -1,9 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<title>How the Course Works | Markdown Course</title>
+<meta name="description" content="A quick guide to Markdown Course: how lessons unlock, XP and badges, the peek helper, quizzes, the final exam, and your certificate.">
+<link rel="canonical" href="https://markdowncourse.com/guide">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#4abdac">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Markdown Course">
+<meta property="og:title" content="How the Course Works | Markdown Course">
+<meta property="og:description" content="A quick guide to Markdown Course: how lessons unlock, XP and badges, the peek helper, quizzes, the final exam, and your certificate.">
+<meta property="og:url" content="https://markdowncourse.com/guide">
+<meta property="og:image" content="https://markdowncourse.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How the Course Works | Markdown Course">
+<meta name="twitter:description" content="A quick guide to Markdown Course: how lessons unlock, XP and badges, the peek helper, quizzes, the final exam, and your certificate.">
+<meta name="twitter:image" content="https://markdowncourse.com/assets/og.png">
 </head>
 <body>
 <x-dc>
@@ -14,6 +29,12 @@
 <style>
   body { margin:0; }
   * { box-sizing:border-box; }
+  /* mc-mobile */
+  @media (max-width: 820px) {
+    html, body { overflow-x: hidden; }
+    header { flex-wrap: wrap !important; gap: 8px 12px !important; padding: 12px 16px !important; }
+    header > a[href^="Markdown 101"], header > div:last-child > a { white-space: nowrap; }
+  }
 </style>
 </helmet>
 <div style="min-height:100vh; background:#eef0ef; font-family:'Spectral',Georgia,serif; color:#1f2a28;">
@@ -23,10 +44,11 @@
     <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
     <div style="display:flex; align-items:center; gap:11px;">
       <div style="width:28px; height:28px; border-radius:8px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px;">#</div>
-      <div style="font-family:'DM Serif Display',serif; font-size:21px; white-space:nowrap;">Markdown 101</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:21px; white-space:nowrap;">Markdown Course</div>
     </div>
       <a href="guide.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7f8a88; text-decoration:none; padding:5px 10px; border-radius:8px;" style-hover="background:#eef0ef; color:#4abdac;">？ How it works</a>
       <a href="reading-room.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7f8a88; text-decoration:none; padding:5px 10px; border-radius:8px;" style-hover="background:#eef0ef; color:#4abdac;">✦ Reading Room</a>
+      <a href="playground.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7f8a88; text-decoration:none; padding:5px 10px; border-radius:8px;" style-hover="background:#eef0ef; color:#4abdac;">✎ Playground</a>
     </div>
     <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#fff; background:#fc4a1a; text-decoration:none; padding:8px 16px; border-radius:20px; white-space:nowrap;">← Back to lessons</a>
   </header>
@@ -43,7 +65,7 @@
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
       <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:18px;"><div style="font-family:'DM Serif Display',serif; font-size:26px; color:#fc4a1a;">1</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:6px;">Learn a little</div><p style="font-size:14px; color:#6b746f; line-height:1.5; margin:5px 0 0;">Each lesson explains one idea in plain language, with a tip for the common gotcha.</p></div>
       <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:18px;"><div style="font-family:'DM Serif Display',serif; font-size:26px; color:#fc4a1a;">2</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:6px;">Try it yourself</div><p style="font-size:14px; color:#6b746f; line-height:1.5; margin:5px 0 0;">Type real markdown, watch the live preview, then check your answer for XP.</p></div>
-      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:18px;"><div style="font-family:'DM Serif Display',serif; font-size:26px; color:#fc4a1a;">3</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:6px;">Unlock the next</div><p style="font-size:14px; color:#6b746f; line-height:1.5; margin:5px 0 0;">Finish a lesson to open the next one. Ten in total, then the final exam.</p></div>
+      <div style="background:#fff; border:1px solid #e4e6e4; border-radius:14px; padding:18px;"><div style="font-family:'DM Serif Display',serif; font-size:26px; color:#fc4a1a;">3</div><div style="font-family:'DM Serif Display',serif; font-size:18px; margin-top:6px;">Unlock the next</div><p style="font-size:14px; color:#6b746f; line-height:1.5; margin:5px 0 0;">Finish a lesson to open the next one. Twelve in total, then the final exam.</p></div>
     </div>
   </div>
 
@@ -152,7 +174,7 @@
       <div style="background:#1f2a28; border-radius:18px; padding:24px; color:#f1faf8;">
         <img src="assets/trophy.png" alt="" style="width:34px; height:34px; object-fit:contain;">
         <div style="font-family:'DM Serif Display',serif; font-size:24px; margin-top:8px;">The final exam</div>
-        <p style="font-size:14.5px; color:#a9c4bf; line-height:1.55; margin:8px 0 0;">After all ten lessons, write one short post that uses <strong>every</strong> trick. A checklist lights up green as you go — turn it all green and graduate (with confetti).</p>
+        <p style="font-size:14.5px; color:#a9c4bf; line-height:1.55; margin:8px 0 0;">After all twelve lessons, write one short post that uses <strong>every</strong> trick. A checklist lights up green as you go — turn it all green and graduate (with confetti).</p>
       </div>
       <div style="background:#fff; border:1px solid #e4e6e4; border-radius:18px; padding:24px;">
         <img src="assets/grad.png" alt="" style="width:34px; height:34px; object-fit:contain;">
@@ -173,10 +195,12 @@
       <nav style="display:flex; flex-wrap:wrap; justify-content:center; gap:11px 20px; font-family:'IBM Plex Mono',monospace; font-size:12px;">
         <a href="index.html" style="color:#7f8a88; text-decoration:none;">Home</a>
         <a href="reading-room.html" style="color:#7f8a88; text-decoration:none;">Reading Room</a>
+        <a href="playground.html" style="color:#7f8a88; text-decoration:none;">Playground</a>
         <a href="about.html" style="color:#7f8a88; text-decoration:none;">About</a>
         <a href="contact.html" style="color:#7f8a88; text-decoration:none;">Contact</a>
         <a href="privacy.html" style="color:#7f8a88; text-decoration:none;">Privacy</a>
         <a href="terms.html" style="color:#7f8a88; text-decoration:none;">Terms</a>
+        <a href="workbook.html" style="color:#7f8a88; text-decoration:none;">The Workbook</a>
         <a href="https://ko-fi.com/mentalkettle" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:7px; color:#212a28; text-decoration:none; font-weight:600;"><img src="assets/coffee.png" alt="" style="width:22px; height:18px; object-fit:contain;">Buy me a coffee</a>
       </nav>
     </div>
