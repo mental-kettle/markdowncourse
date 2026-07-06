@@ -12,68 +12,90 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 <style>
   body { margin:0; }
   * { box-sizing:border-box; }
+  .cert {
+    width:960px; max-width:100%; aspect-ratio:1.414/1;
+    background:#fffdf7; border-radius:6px; box-shadow:0 20px 50px rgba(31,42,40,0.18);
+    position:relative; overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:5.5%;
+  }
+  /* On narrow screens drop the fixed landscape ratio so text can breathe */
+  @media (max-width: 720px) {
+    .cert { aspect-ratio:auto; padding:34px 20px; }
+    .cert-sign { flex-direction:column !important; gap:26px !important; align-items:center !important; }
+    .cert-sign > div { width:100% !important; max-width:240px; }
+    .no-print-controls { flex-wrap:wrap; gap:10px !important; }
+  }
   @media print {
     .no-print { display:none !important; }
     body, .page { background:#fff !important; }
     .page { padding:0 !important; min-height:auto !important; }
+    .cert { box-shadow:none !important; width:100% !important; max-width:none !important; }
     @page { size:landscape; margin:0; }
   }
 </style>
 </helmet>
-<div class="page" style="min-height:100vh; background:#eef0ef; display:flex; flex-direction:column; align-items:center; gap:22px; padding:40px 20px; font-family:'Spectral',Georgia,serif; color:#1f2a28;">
+<div class="page" style="min-height:100vh; background:#eef0ef; display:flex; flex-direction:column; align-items:center; gap:22px; padding:32px 16px; font-family:'Spectral',Georgia,serif; color:#1f2a28;">
 
   <!-- CONTROLS -->
-  <div class="no-print" style="display:flex; align-items:center; gap:12px; width:920px; max-width:100%; justify-content:space-between;">
+  <div class="no-print no-print-controls" style="display:flex; align-items:center; gap:12px; width:960px; max-width:100%; justify-content:space-between;">
     <a href="index.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#7f8a88; text-decoration:none;">← Back to lessons</a>
     <button onClick="{{ print }}" style="border:none; cursor:pointer; font-family:'Spectral',serif; font-weight:600; font-size:14px; color:#fff; background:#fc4a1a; padding:11px 26px; border-radius:24px; box-shadow:0 6px 14px rgba(252,74,26,0.28);">Print / Save as PDF 🖨️</button>
   </div>
 
   <!-- CERTIFICATE -->
-  <div style="width:920px; max-width:100%; aspect-ratio:1.414/1; background:#fffdf7; border-radius:6px; box-shadow:0 20px 50px rgba(31,42,40,0.18); position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6%;">
+  <div class="cert">
     <!-- ornamental border -->
-    <div style="position:absolute; inset:18px; border:2px solid #4abdac; border-radius:4px;"></div>
-    <div style="position:absolute; inset:26px; border:1px solid #e3cf9b; border-radius:3px;"></div>
+    <div style="position:absolute; inset:2.2%; border:2px solid #4abdac; border-radius:4px; pointer-events:none;"></div>
+    <div style="position:absolute; inset:3.4%; border:1px solid #e3cf9b; border-radius:3px; pointer-events:none;"></div>
     <!-- corner accents -->
-    <div style="position:absolute; top:30px; left:30px; width:34px; height:34px; border-top:3px solid #fc4a1a; border-left:3px solid #fc4a1a;"></div>
-    <div style="position:absolute; top:30px; right:30px; width:34px; height:34px; border-top:3px solid #fc4a1a; border-right:3px solid #fc4a1a;"></div>
-    <div style="position:absolute; bottom:30px; left:30px; width:34px; height:34px; border-bottom:3px solid #fc4a1a; border-left:3px solid #fc4a1a;"></div>
-    <div style="position:absolute; bottom:30px; right:30px; width:34px; height:34px; border-bottom:3px solid #fc4a1a; border-right:3px solid #fc4a1a;"></div>
+    <div style="position:absolute; top:3.6%; left:2.8%; width:clamp(20px,3.5%,36px); height:clamp(20px,3.5%,36px); border-top:3px solid #fc4a1a; border-left:3px solid #fc4a1a;"></div>
+    <div style="position:absolute; top:3.6%; right:2.8%; width:clamp(20px,3.5%,36px); height:clamp(20px,3.5%,36px); border-top:3px solid #fc4a1a; border-right:3px solid #fc4a1a;"></div>
+    <div style="position:absolute; bottom:3.6%; left:2.8%; width:clamp(20px,3.5%,36px); height:clamp(20px,3.5%,36px); border-bottom:3px solid #fc4a1a; border-left:3px solid #fc4a1a;"></div>
+    <div style="position:absolute; bottom:3.6%; right:2.8%; width:clamp(20px,3.5%,36px); height:clamp(20px,3.5%,36px); border-bottom:3px solid #fc4a1a; border-right:3px solid #fc4a1a;"></div>
 
-    <div style="position:relative; text-align:center; max-width:78%;">
-      <div style="width:64px; height:64px; margin:0 auto; border-radius:16px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:34px;">#</div>
-      <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa3a1; margin-top:20px;">Certificate of Completion</div>
-      <div style="font-family:'DM Serif Display',serif; font-size:34px; margin-top:6px; color:#1f2a28;">Markdown Course</div>
-      <div style="font-size:15px; color:#6b746f; margin-top:22px;">This certifies that</div>
-      <div style="font-family:'DM Serif Display',serif; font-size:44px; line-height:1.1; margin-top:8px; color:#fc4a1a;">{{ name }}</div>
-      <div style="width:280px; max-width:60%; height:1px; background:#d8dcd9; margin:14px auto 0;"></div>
-      <div style="font-size:15.5px; line-height:1.55; color:#4a5754; margin-top:18px;">has heroically tamed headings, bent text to their will, wrangled lists, forged links, fenced code, and passed <span style="font-style:italic;">The Grand Markdown</span> exam with flying colors.</div>
+    <div style="position:relative; text-align:center; width:100%; max-width:82%;">
+      <div style="width:clamp(48px,7vw,64px); height:clamp(48px,7vw,64px); margin:0 auto; border-radius:16px; background:#4abdac; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:clamp(26px,4vw,34px);">#</div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:clamp(10px,1.5vw,13px); letter-spacing:0.3em; text-transform:uppercase; color:#9aa3a1; margin-top:clamp(12px,2vw,20px);">Certificate of Completion</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:clamp(24px,4.2vw,36px); margin-top:4px; color:#1f2a28;">Markdown Course</div>
+      <div style="font-size:clamp(12px,1.7vw,15px); color:#6b746f; margin-top:clamp(14px,2.4vw,22px);">This certifies that</div>
+      <div style="font-family:'DM Serif Display',serif; font-size:clamp(30px,6vw,46px); line-height:1.1; margin-top:6px; color:#fc4a1a; word-break:break-word;">{{ name }}</div>
+      <div style="width:min(60%,300px); height:1px; background:#d8dcd9; margin:12px auto 0;"></div>
+      <div style="font-size:clamp(12px,1.75vw,15.5px); line-height:1.5; color:#4a5754; margin-top:clamp(12px,2vw,18px);">has completed all twelve lessons and passed <span style="font-style:italic;">The Grand Markdown</span> exam — mastering headings, emphasis, lists, links, images, code, quotes, and more.</div>
 
-      <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-top:36px; gap:30px;">
-        <div style="text-align:center;">
-          <div style="font-family:'DM Serif Display',serif; font-size:22px; color:#1f2a28;">{{ date }}</div>
-          <div style="width:150px; height:1px; background:#c8cecb; margin:6px auto 0;"></div>
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-top:5px;">Date</div>
+      <!-- SIGNATURE ROW -->
+      <div class="cert-sign" style="display:flex; align-items:flex-end; justify-content:space-between; margin-top:clamp(24px,4vw,40px); gap:clamp(20px,4vw,40px);">
+        <div style="text-align:center; flex:1;">
+          <div style="font-family:'DM Serif Display',serif; font-size:clamp(15px,2.4vw,21px); color:#1f2a28; min-height:1.3em;">{{ date }}</div>
+          <div style="height:1px; background:#c8cecb; margin:6px 0 0;"></div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:clamp(8px,1.3vw,10px); letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-top:5px;">Date</div>
         </div>
-        <div style="display:flex; flex-direction:column; align-items:center;">
-          <div style="display:inline-flex; align-items:center; gap:7px; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px; color:#5a4300; background:#f7b733; padding:7px 16px; border-radius:22px;"><span>★</span>{{ xp }} XP</div>
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-top:7px;">Markdown Master</div>
+
+        <!-- seal -->
+        <div style="display:flex; flex-direction:column; align-items:center; flex-shrink:0;">
+          <div style="position:relative; width:clamp(54px,9vw,78px); height:clamp(54px,9vw,78px); border-radius:50%; background:radial-gradient(circle at 50% 40%, #ffd873, #f7b733 70%); display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 3px 8px rgba(180,120,20,0.35); border:2px solid #e0a020;">
+            <div style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:clamp(14px,2.4vw,20px); color:#5a4300; line-height:1;">{{ xp }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:clamp(6px,1vw,8px); letter-spacing:0.14em; color:#7a5a00; margin-top:2px;">XP</div>
+          </div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:clamp(8px,1.3vw,10px); letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-top:7px;">Markdown Master</div>
         </div>
-        <div style="text-align:center;">
-          <div style="font-family:'DM Serif Display',serif; font-size:22px; font-style:italic; color:#1f2a28;">Markdown Course</div>
-          <div style="width:150px; height:1px; background:#c8cecb; margin:6px auto 0;"></div>
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-top:5px;">Issued by</div>
+
+        <div style="text-align:center; flex:1;">
+          <div style="font-family:'Dancing Script',cursive; font-size:clamp(20px,3.4vw,30px); color:#1f2a28; line-height:1.1; min-height:1.3em;">&nbsp;</div>
+          <div style="height:1px; background:#c8cecb; margin:2px 0 0;"></div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:clamp(8px,1.3vw,10px); letter-spacing:0.1em; text-transform:uppercase; color:#9aa3a1; margin-top:5px;">Signature</div>
         </div>
       </div>
 
-      <div style="margin-top:26px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:#9aa3a1;">Earn yours at <span style="color:#4abdac; font-weight:600;">markdowncourse.com</span> · Interactive Markdown Learning Tool</div>
+      <div style="margin-top:clamp(18px,3vw,28px); font-family:'IBM Plex Mono',monospace; font-size:clamp(9px,1.4vw,11px); letter-spacing:0.06em; color:#9aa3a1;">Earn yours at <span style="color:#4abdac; font-weight:600;">markdowncourse.com</span></div>
     </div>
   </div>
 
-  <div class="no-print" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#aab2b0; text-align:center;">{{ tip }}</div>
+  <div class="no-print" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#aab2b0; text-align:center; max-width:600px;">{{ tip }}</div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:760}}">
@@ -91,7 +113,7 @@ class Component extends DCLogic {
     return {
       name:this.state.name, xp:this.state.xp, date:this.state.date || ' ',
       print:this.print,
-      tip:'Tip: in the print dialog choose "Save as PDF", and turn on background graphics for full color.',
+      tip:'Tip: in the print dialog choose "Save as PDF", pick Landscape, and turn on background graphics for full color.',
     };
   }
 }
